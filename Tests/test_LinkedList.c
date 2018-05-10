@@ -1,14 +1,15 @@
 #include "../Headers/LinkedList.h"
-struct node *head;
+struct node *newList;
+
 int main()
 {
-    add_at_begin(5);
-    push_back(6);
-    push_back(7);
-    push_back(8);
-    add_at_begin(5);
-    insert_at_pos(0, 0);
-    insert_at_pos(6, 3);
-    delete_list();
-    print_list();
+    add_at_begin(&newList, 5);
+    push_back(&newList, 6);
+    push_back(&newList, 7);
+    push_back(&newList, 8);
+    add_at_begin(&newList, 5);
+    insert_at_pos(&newList, 0, 0);
+    insert_at_pos(&newList, 6, 3);
+    delete_list(&newList);
+    print_list(&newList);
 }

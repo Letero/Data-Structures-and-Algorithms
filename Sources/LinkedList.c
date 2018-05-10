@@ -1,25 +1,25 @@
 #include "../Headers/LinkedList.h"
 
-void add_at_begin(int inVal)
+void add_at_begin(struct node **head, int inVal)
 {
     struct node *newElement = (struct node *)malloc(sizeof(struct node *));
     newElement->val = inVal;
-    newElement->next = head;
-    head = newElement;
+    newElement->next = *head;
+    *head = newElement;
 }
 
-void push_back(int inVal)
+void push_back(struct node **head, int inVal)
 {
     struct node *newElement = (struct node *)malloc(sizeof(struct node *));
     newElement->val = inVal;
     newElement->next = NULL;
-    if (NULL == head)
+    if (NULL == *head)
     {
-        head = newElement;
+        *head = newElement;
     }
     else
     {
-        struct node *temp = head;
+        struct node *temp = *head;
         while (temp->next) // after this loop temp will point at the last element
         {
             temp = temp->next;
@@ -29,9 +29,9 @@ void push_back(int inVal)
     }
 }
 
-void print_list()
+void print_list(struct node **head)
 {
-    struct node *elem = head;
+    struct node *elem = *head;
     while (elem)
     {
         printf("%d", elem->val);
@@ -39,10 +39,10 @@ void print_list()
     }
 }
 
-unsigned int size_of_list()
+unsigned int size_of_list(struct node **head)
 {
     int counter = 0;
-    struct node *temp = head;
+    struct node *temp = *head;
     while (temp)
     {
         ++counter;
@@ -51,18 +51,18 @@ unsigned int size_of_list()
     return counter;
 }
 
-int insert_at_pos(int pos, int inVal)
+int insert_at_pos(struct node **head, int pos, int inVal)
 {
     struct node *newElement = (struct node *)malloc(sizeof(struct node *));
-    struct node *temp = head;
+    struct node *temp = *head;
 
     int iter = 0;
 
     if (pos == 0)
     {
         newElement->val = inVal;
-        newElement->next = head;
-        head = newElement;
+        newElement->next = *head;
+        *head = newElement;
     }
     else
     {
@@ -83,17 +83,17 @@ int insert_at_pos(int pos, int inVal)
     return 0; // successful
 }
 
-int delete_at_pos(int pos)
+int delete_at_pos(struct node **head, int pos)
 {
 }
 
-int pop_back()
+int pop_back(struct node **head)
 {
 }
 
-void delete_list()
+void delete_list(struct node **head)
 {
-    struct node *current = head;
+    struct node *current = *head;
     struct node *temp;
     while (current)
     {
@@ -101,5 +101,5 @@ void delete_list()
         free(current);
         current = temp;
     }
-    head = NULL;
+    *head = NULL;
 }
