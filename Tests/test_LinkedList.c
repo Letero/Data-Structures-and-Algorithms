@@ -1,5 +1,5 @@
 #include "../Headers/LinkedList.h"
-
+struct node *head;
 int main()
 {
     add_at_begin(5);
@@ -9,6 +9,6 @@ int main()
     add_at_begin(5);
     insert_at_pos(0, 0);
     insert_at_pos(6, 3);
-    printf("%d\n", size_of_list());
+    delete_list();
     print_list();
 }

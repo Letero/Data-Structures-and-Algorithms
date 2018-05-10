@@ -20,7 +20,7 @@ void push_back(int inVal)
     else
     {
         struct node *temp = head;
-        while (temp->next) // after this loop temp will be set at last element
+        while (temp->next) // after this loop temp will point at the last element
         {
             temp = temp->next;
         }
@@ -81,4 +81,25 @@ int insert_at_pos(int pos, int inVal)
         return -1; // position out of range
     }
     return 0; // successful
+}
+
+int delete_at_pos(int pos)
+{
+}
+
+int pop_back()
+{
+}
+
+void delete_list()
+{
+    struct node *current = head;
+    struct node *temp;
+    while (current)
+    {
+        temp = current->next;
+        free(current);
+        current = temp;
+    }
+    head = NULL;
 }
