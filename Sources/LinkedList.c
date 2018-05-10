@@ -89,6 +89,27 @@ int delete_at_pos(struct node **head, int pos)
 
 int pop_back(struct node **head)
 {
+    if (*head == NULL)
+    {
+        return 0;
+    }
+    else if ((*head)->next == NULL)
+    {
+        free(*head);
+        *head = NULL;
+        return 0;
+    }
+
+    struct node *current = *head;
+    struct node *temp;
+    while (current->next)
+    {
+        temp = current;
+        current = current->next;
+    }
+    free(current);
+    current = temp;
+    current->next = NULL;
 }
 
 void delete_list(struct node **head)

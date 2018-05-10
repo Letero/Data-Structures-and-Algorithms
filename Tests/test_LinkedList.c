@@ -1,5 +1,6 @@
 #include "../Headers/LinkedList.h"
-struct node *newList;
+
+struct node *newList = NULL;
 
 int main()
 {
@@ -10,6 +11,8 @@ int main()
     add_at_begin(&newList, 5);
     insert_at_pos(&newList, 0, 0);
     insert_at_pos(&newList, 6, 3);
+    pop_back(&newList);
+    print_list(&newList);
     delete_list(&newList);
     print_list(&newList);
 }
