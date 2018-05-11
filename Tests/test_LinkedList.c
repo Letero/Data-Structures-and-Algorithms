@@ -1,5 +1,6 @@
 #include "../Headers/LinkedList.h"
 #include "../Headers/Test.h"
+
 struct node *newList = NULL;
 
 int main()

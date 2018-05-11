@@ -93,7 +93,6 @@ eError_t delete_at_pos(struct node **head, const int pos)
     struct node *current = NULL;
     int iter = 0;
     eError_t retVal = E_OK;
-
     if (pos == 0)
     {
         temp = (*head)->next;
