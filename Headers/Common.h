@@ -10,7 +10,7 @@ typedef enum eError
     INVALID_ARG_1, // input invalid argument
     INVALID_ARG_2, //
     OUT_OF_RANGE,  //element out of range
-    EMPTY_LIST
+    EMPTY_LIST     // list is empty
 
 } eError_t;
 

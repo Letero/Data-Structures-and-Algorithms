@@ -1,6 +1,6 @@
 #include "../Headers/LinkedList.h"
 
-void add_at_begin(struct node **head, int inVal)
+void add_at_begin(struct node **head, const int inVal)
 {
     struct node *newElement = (struct node *)malloc(sizeof(struct node *));
     newElement->val = inVal;
@@ -8,7 +8,7 @@ void add_at_begin(struct node **head, int inVal)
     *head = newElement;
 }
 
-void push_back(struct node **head, int inVal)
+void push_back(struct node **head, const int inVal)
 {
     struct node *newElement = (struct node *)malloc(sizeof(struct node *));
     newElement->val = inVal;
@@ -52,7 +52,7 @@ unsigned int size_of_list(struct node **head)
     return counter;
 }
 
-eError_t insert_at_pos(struct node **head, const int pos, int inVal)
+eError_t insert_at_pos(struct node **head, const int pos, const int inVal)
 {
     struct node *newElement = NULL;
     struct node *temp = *head;

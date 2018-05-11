@@ -1,8 +1,12 @@
 CC=gcc
+SRC = ./Sources
+TESTS = ./Tests
 all: build
 
 build: LinkedList
 
 LinkedList:
-	$(CC) ./Tests/test_LinkedList.c ./Sources/LinkedList.c ./Sources/Test.c -o exec
+	$(CC) $(TESTS)/test_LinkedList.c $(SRC)/LinkedList.c $(SRC)/Test.c -o exec_list	-I.
 
+clean:
+	rm *.exe
