@@ -37,6 +37,7 @@ void print_list(struct node **head)
         printf("%d", elem->val);
         elem = elem->next;
     }
+    puts(""); //new line
 }
 
 unsigned int size_of_list(struct node **head)
@@ -51,15 +52,16 @@ unsigned int size_of_list(struct node **head)
     return counter;
 }
 
-int insert_at_pos(struct node **head, int pos, int inVal)
+eError_t insert_at_pos(struct node **head, const int pos, int inVal)
 {
-    struct node *newElement = (struct node *)malloc(sizeof(struct node *));
+    struct node *newElement = NULL;
     struct node *temp = *head;
-
+    eError_t retVal = E_OK;
     int iter = 0;
 
     if (pos == 0)
     {
+        newElement = (struct node *)malloc(sizeof(struct node *));
         newElement->val = inVal;
         newElement->next = *head;
         *head = newElement;
@@ -70,6 +72,7 @@ int insert_at_pos(struct node **head, int pos, int inVal)
         {
             if (pos - 1 == iter)
             {
+                newElement = (struct node *)malloc(sizeof(struct node *));
                 newElement->val = inVal;
                 newElement->next = temp->next;
                 temp->next = newElement;
@@ -78,28 +81,94 @@ int insert_at_pos(struct node **head, int pos, int inVal)
             ++iter;
             temp = temp->next;
         }
-        return -1; // position out of range
+        if (iter > pos)
+            retVal = OUT_OF_RANGE; // position out of range
     }
-    return 0; // successful
+    return retVal; // successful
 }
 
-int delete_at_pos(struct node **head, int pos)
+eError_t delete_at_pos(struct node **head, const int pos)
 {
+    struct node *temp = *head;
+    struct node *current = NULL;
+    int iter = 0;
+    eError_t retVal = E_OK;
+
+    if (pos == 0)
+    {
+        temp = (*head)->next;
+        free(*head);
+        *head = temp;
+    }
+    else
+    {
+        while (temp)
+        {
+            if (NULL == temp->next) // if next element is null, it means that position is out of range
+            {
+            }
+            else if (pos == iter)
+            {
+                current = temp->next->next;
+                free(temp->next);
+                temp->next = current;
+                break;
+            }
+            ++iter;
+            temp = temp->next;
+        }
+        if (iter > pos)
+            retVal = OUT_OF_RANGE;
+    }
+    return retVal; // successful
 }
 
-int pop_back(struct node **head)
+eError_t pop_back(struct node **head)
 {
-}
+    if (*head == NULL)
+    {
+        return INVALID_ARG_1; // empty list, cant remove any element
+    }
+    else if ((*head)->next == NULL)
+    {
+        free(*head);
+        *head = NULL;
+        return E_OK;
+    }
 
-void delete_list(struct node **head)
-{
     struct node *current = *head;
     struct node *temp;
-    while (current)
+
+    while (current->next)
     {
-        temp = current->next;
-        free(current);
-        current = temp;
+        temp = current;
+        current = current->next;
     }
-    *head = NULL;
+
+    free(current);
+    current = temp;
+    current->next = NULL;
+    return E_OK;
+}
+
+eError_t delete_list(struct node **head)
+{
+    eError_t retVal = E_OK;
+    if (NULL == *head)
+    {
+        retVal = EMPTY_LIST;
+    }
+    else
+    {
+        struct node *current = *head;
+        struct node *temp;
+        while (current)
+        {
+            temp = current->next;
+            free(current);
+            current = temp;
+        }
+        *head = NULL;
+    }
+    return retVal;
 }
