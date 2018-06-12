@@ -2,7 +2,7 @@
 
 void add_at_begin(struct node **head, const int inVal)
 {
-    struct node *newElement = (struct node *)malloc(sizeof(struct node *));
+    struct node *newElement = (struct node *)malloc(sizeof(struct node));
     newElement->val = inVal;
     newElement->next = *head;
     *head = newElement;
@@ -10,7 +10,7 @@ void add_at_begin(struct node **head, const int inVal)
 
 void push_back(struct node **head, const int inVal)
 {
-    struct node *newElement = (struct node *)malloc(sizeof(struct node *));
+    struct node *newElement = (struct node *)malloc(sizeof(struct node));
     newElement->val = inVal;
     newElement->next = NULL;
     if (NULL == *head)
@@ -57,22 +57,22 @@ eError_t insert_at_pos(struct node **head, const int pos, const int inVal)
     struct node *newElement = NULL;
     struct node *temp = *head;
     eError_t retVal = E_OK;
-    int iter = 0;
 
     if (pos == 0)
     {
-        newElement = (struct node *)malloc(sizeof(struct node *));
+        newElement = (struct node *)malloc(sizeof(struct node));
         newElement->val = inVal;
         newElement->next = *head;
         *head = newElement;
     }
     else
     {
+		int iter = 0;
         while (temp)
         {
             if (pos - 1 == iter)
             {
-                newElement = (struct node *)malloc(sizeof(struct node *));
+                newElement = (struct node *)malloc(sizeof(struct node));
                 newElement->val = inVal;
                 newElement->next = temp->next;
                 temp->next = newElement;
@@ -91,7 +91,6 @@ eError_t delete_at_pos(struct node **head, const int pos)
 {
     struct node *temp = *head;
     struct node *current = NULL;
-    int iter = 0;
     eError_t retVal = E_OK;
     if (pos == 0)
     {
@@ -101,8 +100,10 @@ eError_t delete_at_pos(struct node **head, const int pos)
     }
     else
     {
+		int iter = 0;
         while (temp)
         {
+			
             if (NULL == temp->next) // if next element is null, it means that position is out of range
             {
             }
