@@ -1,7 +1,7 @@
 #ifndef STACK_H
 #define STACK_H
 
-#include "Common.h"
+#define MAX_STACK_SIZE 10
 
 struct stack_t
 {
