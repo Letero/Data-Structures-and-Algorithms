@@ -13,6 +13,7 @@ void push_back(struct node **head, const int inVal)
     struct node *newElement = (struct node *)malloc(sizeof(struct node));
     newElement->val = inVal;
     newElement->next = NULL;
+
     if (NULL == *head)
     {
         *head = newElement;
@@ -32,6 +33,7 @@ void push_back(struct node **head, const int inVal)
 void print_list(struct node **head)
 {
     struct node *elem = *head;
+
     while (elem)
     {
         printf("%d", elem->val);
@@ -44,11 +46,13 @@ unsigned int size_of_list(struct node **head)
 {
     int counter = 0;
     struct node *temp = *head;
+
     while (temp)
     {
         ++counter;
         temp = temp->next;
     }
+
     return counter;
 }
 
@@ -67,7 +71,7 @@ eError_t insert_at_pos(struct node **head, const int pos, const int inVal)
     }
     else
     {
-		int iter = 0;
+        int iter = 0;
         while (temp)
         {
             if (pos - 1 == iter)
@@ -84,6 +88,7 @@ eError_t insert_at_pos(struct node **head, const int pos, const int inVal)
         if (iter > pos)
             retVal = OUT_OF_RANGE; // position out of range
     }
+
     return retVal; // successful
 }
 
@@ -92,6 +97,7 @@ eError_t delete_at_pos(struct node **head, const int pos)
     struct node *temp = *head;
     struct node *current = NULL;
     eError_t retVal = E_OK;
+
     if (pos == 0)
     {
         temp = (*head)->next;
@@ -100,10 +106,10 @@ eError_t delete_at_pos(struct node **head, const int pos)
     }
     else
     {
-		int iter = 0;
+        int iter = 0;
         while (temp)
         {
-			
+
             if (NULL == temp->next) // if next element is null, it means that position is out of range
             {
             }
@@ -120,6 +126,7 @@ eError_t delete_at_pos(struct node **head, const int pos)
         if (iter > pos)
             retVal = OUT_OF_RANGE;
     }
+
     return retVal; // successful
 }
 
@@ -148,12 +155,14 @@ eError_t pop_back(struct node **head)
     free(current);
     current = temp;
     current->next = NULL;
+
     return E_OK;
 }
 
 eError_t delete_list(struct node **head)
 {
     eError_t retVal = E_OK;
+
     if (NULL == *head)
     {
         retVal = EMPTY_LIST;
@@ -170,15 +179,16 @@ eError_t delete_list(struct node **head)
         }
         *head = NULL;
     }
+
     return retVal;
 }
 
 void print_elem_at_Pos(struct node **head, const int pos)
 {
-
     struct node *temp = *head;
     int count = 0;
     int flag = 0;
+
     while (temp)
     {
         if (count == pos)
