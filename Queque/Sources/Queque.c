@@ -1,1 +1,61 @@
-#include <../Headers/Queque.h>
+#include "../Headers/Queque.h"
+
+void initQueque(struct queque_t *ptrQueque)
+{
+    ptrQueque->head = NULL;
+    ptrQueque->tail = NULL;
+    ptrQueque->actual_size = 0;
+}
+
+void addToQueque(struct queque_t *ptrQueque, int inputValue)
+{
+    if (ptrQueque->actual_size >= MAX_QUEQUE_SIZE)
+    {
+        printf("Error! Max size of queque (%d) reached already, cannot add another element!\n", MAX_QUEQUE_SIZE);
+        return;
+    }
+    struct node_t *newNode = (struct node_t *)malloc(sizeof(struct node_t));
+    newNode->value = inputValue;
+    ++ptrQueque->actual_size;
+
+    if (NULL == ptrQueque->head)
+    {
+        newNode->prev = NULL;
+        ptrQueque->head = newNode;
+        ptrQueque->tail = newNode;
+    }
+    else
+    {
+        newNode->prev = ptrQueque->tail;
+        ptrQueque->tail = newNode;
+    }
+}
+
+void pop(struct queque_t *ptrQueque)
+{
+    if (ptrQueque->head == NULL)
+    {
+        puts("Cant empty pop element from empty queque!");
+        return;
+    }
+    
+}
+
+void emptyQueque(struct queque_t *ptrQueque)
+{
+}
+
+void printQueque(struct queque_t *ptrQueque)
+{
+    struct node_t *temp = ptrQueque->tail;
+    for (int i = 0; i < ptrQueque->actual_size; ++i)
+    {
+        printf("%d ", temp->value);
+        temp = temp->prev;
+    }
+    puts("");
+}
+
+void deleteQueque(struct queque_t *ptrQueque)
+{
+}
