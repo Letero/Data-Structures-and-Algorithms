@@ -14,6 +14,7 @@ void addToQueque(struct queque_t *ptrQueque, int inputValue)
         printf("Error! Max size of queque (%d) reached already, cannot add another element!\n", MAX_QUEQUE_SIZE);
         return;
     }
+
     struct node_t *newNode = (struct node_t *)malloc(sizeof(struct node_t));
     newNode->value = inputValue;
     ++ptrQueque->actual_size;
@@ -33,29 +34,39 @@ void addToQueque(struct queque_t *ptrQueque, int inputValue)
 
 void pop(struct queque_t *ptrQueque)
 {
-    if (ptrQueque->head == NULL)
+    if (NULL == ptrQueque->head)
     {
         puts("Cant empty pop element from empty queque!");
         return;
     }
-    
+    if (ptrQueque->actual_size <= 0)
+    {
+        ptrQueque->head = NULL;
+    }
+    else
+    {
+        free(ptrQueque->head);
+        ptrQueque->head = ptrQueque->head->prev;
+        --ptrQueque->actual_size;
+    }
 }
 
 void emptyQueque(struct queque_t *ptrQueque)
 {
+    while (ptrQueque->head)
+    {
+        pop(ptrQueque);
+    }
 }
 
 void printQueque(struct queque_t *ptrQueque)
 {
     struct node_t *temp = ptrQueque->tail;
-    for (int i = 0; i < ptrQueque->actual_size; ++i)
+
+    for (int i = ptrQueque->actual_size - 1; i >= 0; --i)
     {
         printf("%d ", temp->value);
         temp = temp->prev;
     }
     puts("");
-}
-
-void deleteQueque(struct queque_t *ptrQueque)
-{
 }
