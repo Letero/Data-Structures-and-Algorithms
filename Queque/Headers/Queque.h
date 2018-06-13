@@ -1,20 +1,29 @@
 #ifndef QUEQUE_H
 #define QUEQUE_H
 
+#define MAX_QUEQUE_SIZE 10
+
+#include <stdlib.h>
+#include <stdio.h>
+
 struct node_t
 {
-    int value;
     struct node_t *prev;
+    int value;
 };
 
 struct queque_t
 {
     struct node_t *head;
     struct node_t *tail;
-    int size;
-    int limit;
+    int actual_size;
 };
 
-void initQueque(struct queque_t *quequePtr, int limit); //set limit, pointers and size
+void initQueque(struct queque_t *ptrQueque);
+void addToQueque(struct queque_t *ptrQueque, int inputValue);
+void pop(struct queque_t *ptrQueque);
+void emptyQueque(struct queque_t *ptrQueque);
+void printQueque(struct queque_t *ptrQueque);
+void deleteQueque(struct queque_t *ptrQueque);
 
 #endif //QUEQUE_h
