@@ -23,7 +23,6 @@ void initQueque(struct queque_t *ptrQueque);
 void addToQueque(struct queque_t *ptrQueque, int inputValue);
 void pop(struct queque_t *ptrQueque);
 void emptyQueque(struct queque_t *ptrQueque);
-void printQueque(struct queque_t *ptrQueque);
-void deleteQueque(struct queque_t *ptrQueque);
+void printQueque(struct queque_t *ptrQueque); //prints from tail to head
 
 #endif //QUEQUE_h

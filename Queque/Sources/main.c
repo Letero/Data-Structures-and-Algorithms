@@ -9,6 +9,6 @@ int main(int argc, char *argv[])
     addToQueque(&newQueque, 6);
     addToQueque(&newQueque, 4);
     printQueque(&newQueque);
-    deleteQueque(&newQueque);
+    emptyQueque(&newQueque);
     printQueque(&newQueque);
 }
