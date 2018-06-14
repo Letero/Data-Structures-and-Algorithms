@@ -8,14 +8,13 @@
 
 struct node_t
 {
-    struct node_t *prev;
+    struct node_t *next;
     int value;
 };
 
 struct queque_t
 {
     struct node_t *head;
-    struct node_t *tail;
     int actual_size;
 };
 

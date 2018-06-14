@@ -3,7 +3,6 @@
 void initQueque(struct queque_t *ptrQueque)
 {
     ptrQueque->head = NULL;
-    ptrQueque->tail = NULL;
     ptrQueque->actual_size = 0;
 }
 
@@ -16,19 +15,23 @@ void addToQueque(struct queque_t *ptrQueque, int inputValue)
     }
 
     struct node_t *newNode = (struct node_t *)malloc(sizeof(struct node_t));
-    newNode->value = inputValue;
     ++ptrQueque->actual_size;
+    newNode->value = inputValue;
 
     if (NULL == ptrQueque->head)
     {
-        newNode->prev = NULL;
+        newNode->next = NULL;
         ptrQueque->head = newNode;
-        ptrQueque->tail = newNode;
     }
     else
     {
-        newNode->prev = ptrQueque->tail;
-        ptrQueque->tail = newNode;
+        struct node_t *temp = ptrQueque->head;
+        while (temp->next)
+        {
+            temp = temp->next;
+        }
+        newNode->next = NULL;
+        temp->next = newNode;
     }
 }
 
@@ -45,8 +48,9 @@ void pop(struct queque_t *ptrQueque)
     }
     else
     {
+        struct node_t *temp = ptrQueque->head->next;
         free(ptrQueque->head);
-        ptrQueque->head = ptrQueque->head->prev;
+        ptrQueque->head = temp;
         --ptrQueque->actual_size;
     }
 }
@@ -61,12 +65,12 @@ void emptyQueque(struct queque_t *ptrQueque)
 
 void printQueque(struct queque_t *ptrQueque)
 {
-    struct node_t *temp = ptrQueque->tail;
+    struct node_t *temp = ptrQueque->head;
 
     for (int i = ptrQueque->actual_size - 1; i >= 0; --i)
     {
         printf("%d ", temp->value);
-        temp = temp->prev;
+        temp = temp->next;
     }
     puts("");
 }
