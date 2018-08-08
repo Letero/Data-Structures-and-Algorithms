@@ -1,16 +1,16 @@
 #include "../Headers/LinkedList.h"
 
-void add_at_begin(struct node **head, const int inVal)
+void add_at_begin(struct List_t **head, const int inVal)
 {
-    struct node *newElement = (struct node *)malloc(sizeof(struct node));
+    struct List_t *newElement = (struct List_t *)malloc(sizeof(struct List_t));
     newElement->val = inVal;
     newElement->next = *head;
     *head = newElement;
 }
 
-void push_back(struct node **head, const int inVal)
+void push_back(struct List_t **head, const int inVal)
 {
-    struct node *newElement = (struct node *)malloc(sizeof(struct node));
+    struct List_t *newElement = (struct List_t *)malloc(sizeof(struct List_t));
     newElement->val = inVal;
     newElement->next = NULL;
 
@@ -20,7 +20,7 @@ void push_back(struct node **head, const int inVal)
     }
     else
     {
-        struct node *temp = *head;
+        struct List_t *temp = *head;
         while (temp->next) //after this loop temp will point at the last element
         {
             temp = temp->next;
@@ -30,9 +30,9 @@ void push_back(struct node **head, const int inVal)
     }
 }
 
-void print_list(struct node **head)
+void print_list(struct List_t **head)
 {
-    struct node *elem = *head;
+    struct List_t *elem = *head;
 
     while (elem)
     {
@@ -42,10 +42,10 @@ void print_list(struct node **head)
     puts(""); //new line
 }
 
-unsigned int size_of_list(struct node **head)
+unsigned int size_of_list(struct List_t **head)
 {
     int counter = 0;
-    struct node *temp = *head;
+    struct List_t *temp = *head;
 
     while (temp)
     {
@@ -56,15 +56,15 @@ unsigned int size_of_list(struct node **head)
     return counter;
 }
 
-eError_t insert_at_pos(struct node **head, const int pos, const int inVal)
+eError_t insert_at_pos(struct List_t **head, const int pos, const int inVal)
 {
-    struct node *newElement = NULL;
-    struct node *temp = *head;
+    struct List_t *newElement = NULL;
+    struct List_t *temp = *head;
     eError_t retVal = E_OK;
 
     if (pos == 0)
     {
-        newElement = (struct node *)malloc(sizeof(struct node));
+        newElement = (struct List_t *)malloc(sizeof(struct List_t));
         newElement->val = inVal;
         newElement->next = *head;
         *head = newElement;
@@ -76,7 +76,7 @@ eError_t insert_at_pos(struct node **head, const int pos, const int inVal)
         {
             if (pos - 1 == iter)
             {
-                newElement = (struct node *)malloc(sizeof(struct node));
+                newElement = (struct List_t *)malloc(sizeof(struct List_t));
                 newElement->val = inVal;
                 newElement->next = temp->next;
                 temp->next = newElement;
@@ -92,10 +92,10 @@ eError_t insert_at_pos(struct node **head, const int pos, const int inVal)
     return retVal;
 }
 
-eError_t delete_at_pos(struct node **head, const int pos)
+eError_t delete_at_pos(struct List_t **head, const int pos)
 {
-    struct node *temp = *head;
-    struct node *current = NULL;
+    struct List_t *temp = *head;
+    struct List_t *current = NULL;
     eError_t retVal = E_OK;
 
     if (pos == 0)
@@ -130,7 +130,7 @@ eError_t delete_at_pos(struct node **head, const int pos)
     return retVal; // successful
 }
 
-eError_t pop_back(struct node **head)
+eError_t pop_back(struct List_t **head)
 {
     if (*head == NULL)
     {
@@ -143,8 +143,8 @@ eError_t pop_back(struct node **head)
         return E_OK;
     }
 
-    struct node *current = *head;
-    struct node *temp;
+    struct List_t *current = *head;
+    struct List_t *temp;
 
     while (current->next)
     {
@@ -159,7 +159,7 @@ eError_t pop_back(struct node **head)
     return E_OK;
 }
 
-eError_t delete_list(struct node **head)
+eError_t delete_list(struct List_t **head)
 {
     eError_t retVal = E_OK;
 
@@ -169,8 +169,8 @@ eError_t delete_list(struct node **head)
     }
     else
     {
-        struct node *current = *head;
-        struct node *temp;
+        struct List_t *current = *head;
+        struct List_t *temp;
         while (current)
         {
             temp = current->next;
@@ -183,9 +183,9 @@ eError_t delete_list(struct node **head)
     return retVal;
 }
 
-void print_elem_at_Pos(struct node **head, const int pos)
+void print_elem_at_Pos(struct List_t **head, const int pos)
 {
-    struct node *temp = *head;
+    struct List_t *temp = *head;
     int count = 0;
     int flag = 0;
 
