@@ -7,6 +7,7 @@
 
 int main()
 {
+
     srand(time(0));
     int array[SIZE];
     for (int i = 0; i < SIZE; ++i)
@@ -21,7 +22,7 @@ int main()
     }
     puts("");
 
-    int *sortedArray = bubbleSort(array, SIZE);
+    int *sortedArray = bubbleSort(array, SIZE, 1);
 
     puts("Sorted array: ");
     for (int i = 0; i < SIZE; ++i)
@@ -30,6 +31,5 @@ int main()
     }
     puts("");
 
-    free(sortedArray);
     return 0;
 }
