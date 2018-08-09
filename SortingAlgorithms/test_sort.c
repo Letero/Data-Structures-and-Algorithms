@@ -22,12 +22,13 @@ int main()
     }
     puts("");
 
-    int *sortedArray = bubbleSort(array, SIZE, 1);
+    /*call sorting function*/
+    selectionSort(array, SIZE, 0);
 
     puts("Sorted array: ");
     for (int i = 0; i < SIZE; ++i)
     {
-        printf("%d ", sortedArray[i]);
+        printf("%d ", array[i]);
     }
     puts("");
 

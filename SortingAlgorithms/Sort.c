@@ -1,6 +1,7 @@
 #include "Sort.h"
+#include <stdio.h>
 
-int *bubbleSort(int *arrayToSort, int size, int order)
+void bubbleSort(int *arrayToSort, int size, int order)
 {
     for (int i = 0; i < size; ++i)
     {
@@ -17,10 +18,24 @@ int *bubbleSort(int *arrayToSort, int size, int order)
     return arrayToSort;
 }
 
-int *selectionSort(int *arrayToSort, int size, int order)
+void selectionSort(int *arrayToSort, int size, int order)
 {
+    for (int i = 0; i < size; ++i)
+    {
+        int min = i;
+
+        for (int j = i + 1; j < size; ++j)
+        {
+            if (arrayToSort[j] < arrayToSort[min])
+            {
+                int temp = arrayToSort[i];
+                arrayToSort[i] = arrayToSort[j];
+                arrayToSort[j] = temp;
+            }
+        }
+    }
 }
 
-int *insertionSort(int *arrayToSort, int size, int order)
+void insertionSort(int *arrayToSort, int size, int order)
 {
 }
