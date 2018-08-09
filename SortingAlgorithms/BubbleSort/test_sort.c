@@ -1,18 +1,25 @@
 #include "Sort.h"
 #include <stdlib.h>
 #include <stdio.h>
+#include <time.h>
 
-#define SIZE 10
-int array[SIZE] = {5, 4, 1, 6, 0, 3, 2, 9, 8, 7};
+#define SIZE 20
 
 int main()
 {
+    srand(time(0));
+    int array[SIZE];
+    for (int i = 0; i < SIZE; ++i)
+    {
+        array[i] = rand() % 100;
+    }
 
     puts("Array before sorting: ");
     for (int i = 0; i < SIZE; ++i)
     {
         printf("%d ", array[i]);
     }
+    puts("");
 
     int *sortedArray = bubbleSort(array, SIZE);
 
