@@ -3,7 +3,7 @@
 #include <stdio.h>
 #include <time.h>
 
-#define SIZE 20
+#define SIZE 25
 
 int main()
 {
@@ -23,7 +23,7 @@ int main()
     puts("");
 
     /*call sorting function*/
-    selectionSort(array, SIZE, 0);
+    insertionSort(array, SIZE, 0);
 
     puts("Sorted array: ");
     for (int i = 0; i < SIZE; ++i)
