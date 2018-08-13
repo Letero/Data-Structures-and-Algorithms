@@ -23,7 +23,7 @@ int main()
     puts("");
 
     /*call sorting function*/
-    insertionSort(array, SIZE, 0);
+    insertionSort(array, SIZE, 1);
 
     puts("Sorted array: ");
     for (int i = 0; i < SIZE; ++i)
