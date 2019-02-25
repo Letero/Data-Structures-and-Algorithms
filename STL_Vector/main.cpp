@@ -5,16 +5,21 @@
 int main(int argc, char *argv[])
 {
     Vector<int> vec;
-    Vector<int> vec2;
     vec.push_back(5);
     vec.push_back(10);
     vec.push_back(11);
     vec.push_back(23);
-    vec2 = vec;
+
+    Vector<int> vec2(vec);
+
+    for (int i = 0; i < vec2.size(); ++i)
+    {
+        std::cout << vec2[i] << " ";
+    }
 
     for (auto a : vec2)
     {
-        std::cout << a << " ";
+        //  std::cout << a << " ";
     }
     try
     {
