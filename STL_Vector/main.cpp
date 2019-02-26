@@ -9,7 +9,16 @@ int main(int argc, char *argv[])
     vec.push_back(10);
     vec.push_back(11);
     vec.push_back(23);
-
+    try
+    {
+        vec.erase(3);
+        vec.erase(2);
+        vec.erase(1);
+    }
+    catch (const char *e)
+    {
+        std::cerr << e;
+    }
     Vector<int> vec2(vec);
 
     for (int i = 0; i < vec2.size(); ++i)

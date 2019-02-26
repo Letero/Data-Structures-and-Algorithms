@@ -2,7 +2,7 @@
 #define VECTOR_H
 #include <iostream>
 
-const int RESERVE = 2; //we don't want to resive vector every time we add new elem
+const int RESERVE = 50; //we don't want to resive vector every time we add new elem
 
 template <class T>
 class Vector
@@ -65,6 +65,18 @@ public:
   {
     if (pos >= 0 && pos < _size)
     {
+      T *nArr = new T[_size - 1];
+      for (int i = 0; i < pos; ++i)
+      {
+        nArr[i] = arr[i];
+      }
+      for (int i = pos; i < _size - 1; ++i)
+      {
+        nArr[i] = arr[i + 1];
+      }
+      delete[] arr;
+      arr = nArr;
+      --_size;
     }
     else
       throw "erase() : Position out of range\n";
@@ -75,7 +87,7 @@ public:
     _size++;
     if (_size % _reserve == 0)
     {
-      this->reallocateMem();
+      this->allocMoreMemory();
     }
   }
   void pop_back() { --_size; }
@@ -118,7 +130,7 @@ private:
   const unsigned int _reserve;
   unsigned int _memSize;
   unsigned int _size;
-  void reallocateMem()
+  void allocMoreMemory()
   {
     try
     {
