@@ -37,6 +37,18 @@ public:
       std::cerr << "bad_alloc caught: " << ba.what() << '\n';
     }
   }
+  // constructor with initializer list
+  Vector(std::initializer_list<T> values) : Vector()
+  {
+    while (values.size() >= this->_memSize)
+    {
+      this->allocMoreMemory();
+    }
+    for (auto a : values)
+    {
+      this->push_back(a);
+    }
+  }
   //deconstructor
   ~Vector()
   {
@@ -65,18 +77,25 @@ public:
   {
     if (pos >= 0 && pos < _size)
     {
-      T *nArr = new T[_size - 1];
-      for (int i = 0; i < pos; ++i)
+      try
       {
-        nArr[i] = arr[i];
+        T *nArr = new T[_size - 1];
+        for (int i = 0; i < pos; ++i)
+        {
+          nArr[i] = arr[i];
+        }
+        for (int i = pos; i < _size - 1; ++i)
+        {
+          nArr[i] = arr[i + 1];
+        }
+        delete[] arr;
+        arr = nArr;
+        --_size;
       }
-      for (int i = pos; i < _size - 1; ++i)
+      catch (std::bad_alloc &ba)
       {
-        nArr[i] = arr[i + 1];
+        std::cerr << "bad_alloc caught: " << ba.what() << '\n';
       }
-      delete[] arr;
-      arr = nArr;
-      --_size;
     }
     else
       throw "erase() : Position out of range\n";
@@ -126,10 +145,12 @@ public:
   }
 
 private:
+  /*private variables*/
   T *arr;
   const unsigned int _reserve;
   unsigned int _memSize;
   unsigned int _size;
+  /*private member functions*/
   void allocMoreMemory()
   {
     try
