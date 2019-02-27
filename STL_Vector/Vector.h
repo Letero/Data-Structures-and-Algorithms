@@ -17,18 +17,19 @@ public:
   /*non-constructor members*/
   void clear();                 //clear contents of vector
   void assign();                //todo
-  void erase(unsigned int pos); //remove element from given position
+  void erase(const size_t pos); //remove element from given position
   void push_back(T elem);       //add element at the end of vec
   void pop_back();              //remove element from the end of vec
   T size();                     //return size of vec
   T *begin();                   //return pointer to first elem
   T *end();                     //return pointer to place after last elem
-  T at(const int pos);          //return element from given pos
+  T at(const size_t pos);       //return element from given pos
   T &front();                   // return value of first elem in vector
   T &back();                    //return value of last elem in vector
+  bool empty();                 //check if vector is empty
   /*operators*/
   Vector &operator=(const Vector &old); //assign operator
-  T &operator[](const int pos);         //random access operator
+  T &operator[](const size_t pos);      //random access operator
   /*Iterator *
   typedef T *iterator;
   iterator begin();
@@ -42,6 +43,7 @@ private:
   size_t _size;
   /*private member functions*/
   void allocMoreMemory();
+  void reserve(size_t newCap);
 };
 
 template <class T>
@@ -164,7 +166,7 @@ template <class T>
 T *Vector<T>::end() { return &arr[_size]; }
 
 template <class T>
-T Vector<T>::at(const int pos)
+T Vector<T>::at(const unsigned int pos)
 {
   if ((pos < 0) || (pos >= _size))
   {
@@ -189,6 +191,16 @@ T &Vector<T>::back()
   return arr[_size];
 }
 
+template <class T>
+bool Vector<T>::empty()
+{
+  if (_size == 0)
+  {
+    return true;
+  }
+  return false;
+}
+
 /*operators*/
 template <class T>
 Vector<T> &Vector<T>::operator=(const Vector &old)
@@ -208,7 +220,7 @@ Vector<T> &Vector<T>::operator=(const Vector &old)
 }
 
 template <class T>
-T &Vector<T>::operator[](const int pos)
+T &Vector<T>::operator[](const size_t pos)
 {
   return arr[pos];
 }
