@@ -41,21 +41,7 @@ private:
   size_t _memSize;
   size_t _size;
   /*private member functions*/
-  void allocMoreMemory()
-  {
-    try
-    {
-      _memSize += _reserve;
-      T *nArr = new T[_memSize];
-      memcpy(nArr, arr, (_memSize) * sizeof(T));
-      delete[] arr;
-      arr = nArr;
-    }
-    catch (std::bad_alloc &ba)
-    {
-      std::cerr << "bad_alloc caught: " << ba.what() << '\n';
-    }
-  }
+  void allocMoreMemory();
 };
 
 template <class T>
@@ -225,6 +211,23 @@ template <class T>
 T &Vector<T>::operator[](const int pos)
 {
   return arr[pos];
+}
+
+template <class T>
+void Vector<T>::allocMoreMemory()
+{
+  try
+  {
+    _memSize += _reserve;
+    T *nArr = new T[_memSize];
+    memcpy(nArr, arr, (_memSize) * sizeof(T));
+    delete[] arr;
+    arr = nArr;
+  }
+  catch (std::bad_alloc &ba)
+  {
+    std::cerr << "bad_alloc caught: " << ba.what() << '\n';
+  }
 }
 
 #endif //VECTOR_H
