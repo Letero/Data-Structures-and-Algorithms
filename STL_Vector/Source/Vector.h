@@ -2,7 +2,7 @@
 #define VECTOR_H
 #include <iostream>
 
-const int RESERVE = 20; //we don't want to resive vector every time we add new elem
+const int RESERVE = 20; //we don't want to resize vector every time we add new elem
 
 template <class T>
 class Vector
@@ -36,12 +36,10 @@ public:
   iterator end();*/
 
 private:
-  /*private variables*/
   T *arr;
   const size_t _reserve;
   size_t _memSize;
   size_t _size;
-  /*private member functions*/
   void allocMoreMemory();
   void reserve(size_t newCap);
 };
@@ -59,6 +57,7 @@ Vector<T>::Vector() : _reserve(RESERVE), _memSize(RESERVE)
     std::cerr << "bad_alloc caught: " << ba.what() << '\n';
   }
 }
+
 template <class T>
 Vector<T>::Vector(const Vector &old) : _reserve(RESERVE)
 {
@@ -111,6 +110,7 @@ void Vector<T>::clear() //clear the contents of vector
     std::cerr << "bad_alloc caught: " << ba.what() << '\n';
   }
 }
+
 template <class T>
 void Vector<T>::assign() {} //
 
@@ -142,6 +142,7 @@ void Vector<T>::erase(unsigned int pos)
   else
     throw "erase() : Position out of range\n";
 }
+
 template <class T>
 void Vector<T>::push_back(T elem)
 {
