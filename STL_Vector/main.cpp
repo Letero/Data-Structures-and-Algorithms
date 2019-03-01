@@ -5,9 +5,9 @@
 
 int main()
 {
-    Vector<int> vec{1, 2, 3, 4};
-    Tests<int> newTests(vec);
+    Tests newTests;
     newTests.runAllTests();
-
+    std::vector<int> nvec;
+    nvec = {1, 2, 3, 5};
     return 0;
 }

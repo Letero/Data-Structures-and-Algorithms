@@ -9,10 +9,10 @@ class Vector
 {
 public:
   /*constructors*/
-  Vector();                                         //default
-  Vector(const Vector &old);                        //copy constructor
-  explicit Vector(std::initializer_list<T> values); // constructor with initializer list
-  ~Vector();                                        //deconstructor
+  Vector();                                               //default
+  Vector(const Vector &old);                              //copy constructor
+  explicit Vector(const std::initializer_list<T> values); // constructor with initializer list
+  ~Vector();                                              //deconstructor
 
   /*non-constructor members*/
   void clear();                 //clear contents of vector
@@ -20,7 +20,7 @@ public:
   void erase(const size_t pos); //remove element from given position
   void push_back(T elem);       //add element at the end of vec
   void pop_back();              //remove element from the end of vec
-  T size();                     //return size of vec
+  size_t size();                //return size of vec
   T *begin();                   //return pointer to first elem
   T *end();                     //return pointer to place after last elem
   T at(const size_t pos);       //return element from given pos
@@ -28,8 +28,9 @@ public:
   T &back();                    //return value of last elem in vector
   bool empty();                 //check if vector is empty
   /*operators*/
-  Vector &operator=(const Vector &old); //assign operator
-  T &operator[](const size_t pos);      //random access operator
+  Vector &operator=(const Vector &old);                     //copy assignment operator
+  Vector &operator=(const std::initializer_list<T> values); //assign initialzier list
+  T &operator[](const size_t pos);                          //random access operator
   /*Iterator *
   typedef T *iterator;
   iterator begin();
@@ -75,7 +76,7 @@ Vector<T>::Vector(const Vector &old) : _reserve(RESERVE)
 }
 
 template <class T>
-Vector<T>::Vector(std::initializer_list<T> values)
+Vector<T>::Vector(const std::initializer_list<T> values)
     : Vector()
 {
   while (values.size() >= this->_memSize)
@@ -158,7 +159,7 @@ template <class T>
 void Vector<T>::pop_back() { --_size; }
 
 template <class T>
-T Vector<T>::size() { return _size; }
+size_t Vector<T>::size() { return _size; }
 
 template <class T>
 T *Vector<T>::begin() { return &arr[0]; }
@@ -216,6 +217,15 @@ Vector<T> &Vector<T>::operator=(const Vector &old)
     this->_memSize = old._memSize;
     this->arr = new T[_size];
     this->arr = old.arr;
+  }
+  return *this;
+}
+template <class T>
+Vector<T> &Vector<T>::operator=(const std::initializer_list<T> values)
+{
+  for (auto a : values)
+  {
+    this->push_back(a);
   }
   return *this;
 }
