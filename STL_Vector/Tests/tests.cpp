@@ -1,5 +1,10 @@
 #include <iostream>
 #include "tests.h"
+#include <typeinfo>
+Tests::Tests()
+{
+    testVec = {1, 2, 3, 4, 5};
+}
 
 void Tests::runAllTests()
 {
@@ -27,11 +32,6 @@ void Tests::runAllTests()
     this->test_randomAccessOperator();
 }
 
-Tests::Tests()
-{
-    testVec = {1, 2, 3, 4, 5};
-}
-
 void Tests::test_constructor()
 {
     Vector<int> newVec;
@@ -47,10 +47,8 @@ void Tests::test_constructor()
 
 void Tests::test_copyConstructor()
 {
-    std::cout << testVec.size();
     Vector<int> newVec(testVec);
-
-    if (newVec.size() > 0)
+    if (newVec.size() == 5)
     {
         testSuccessful(__FUNCTION__);
     }
@@ -63,10 +61,11 @@ void Tests::test_copyConstructor()
 void Tests::test_constructorInitializerList()
 {
     bool flag = 1; // no error
-    Vector<std::string> a{"a", "b", "c", "d"};
-    Vector<std::string> b({"a", "b", "c", "d"});
+    Vector<double> a{1.1, 2.2, 3.3, 4.4};
+    Vector<int> b({1, 2, 3, 4});
+    Vector<char> c{'a', 1, 'b', 5};
 
-    if ((a.size() != 4) || (b.size() != 4))
+    if ((a.size() != 4) || (b.size() != 4) || (c.size() != 4))
     {
         flag = 0;
     }
@@ -101,9 +100,40 @@ void Tests::test_clear()
 
 void Tests::test_assign() {}
 
-void Tests::test_erase() {}
+void Tests::test_erase()
+{
 
-void Tests::test_push_back() {}
+    Vector<int> nVec = {1, 2, 3, 4, 5};
+    nVec.erase(0);
+    nVec.erase(0);
+    nVec.erase(0);
+    nVec.erase(0);
+    nVec.erase(0);
+    if (nVec.size() == 0)
+    {
+        testSuccessful(__FUNCTION__);
+    }
+    else
+    {
+        std::cout << nVec.size();
+        testFailure(__FUNCTION__);
+    }
+}
+
+void Tests::test_push_back()
+{
+    Vector<int> a{33, 33, 33, 33, 33, 33, 33, 33, 33, 33, 33, 33, 33, 33, 33, 33, 33, 33, 33, 33, 33};
+    Vector<Vector<int>> nVec;
+    nVec.push_back(a);
+    if ((nVec[0][20] == 33))
+    {
+        testSuccessful(__FUNCTION__);
+    }
+    else
+    {
+        testFailure(__FUNCTION__);
+    }
+}
 
 void Tests::test_pop_back() {}
 
