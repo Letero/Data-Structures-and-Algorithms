@@ -6,10 +6,6 @@
 
 int main()
 {
-    std::vector<std::string> a;
-    a.push_back("a");
-    std::cout << typeid(a[0]).name() << '\n';
-
     Tests newTests;
     newTests.runAllTests();
 

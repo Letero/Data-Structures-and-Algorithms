@@ -135,21 +135,184 @@ void Tests::test_push_back()
     }
 }
 
-void Tests::test_pop_back() {}
+void Tests::test_pop_back()
+{
+    Vector<int> a{1, 2, 3};
+    a.pop_back();
+    a.pop_back();
+    a.pop_back();
+    a.pop_back();
+    if (a.size() == 0)
+    {
+        testSuccessful(__FUNCTION__);
+    }
+    else
+    {
+        testFailure(__FUNCTION__);
+    }
+}
 
-void Tests::test_size() {}
+void Tests::test_size()
+{
+    int flag = 1;
+    Vector<int> a{1, 2, 3};
 
-void Tests::test_begin() {}
+    if (a.size() != 3)
+    {
+        flag = 0;
+    }
 
-void Tests::test_end() {}
+    a.push_back(5);
+    if (a.size() != 4)
+    {
+        flag = 0;
+    }
 
-void Tests::test_at() {}
+    a.pop_back();
+    if (a.size() != 3)
+    {
+        flag = 0;
+    }
 
-void Tests::test_front() {}
+    if (flag)
+    {
+        testSuccessful(__FUNCTION__);
+    }
+    else
+    {
+        testFailure(__FUNCTION__);
+    }
+}
 
-void Tests::test_back() {}
+void Tests::test_begin()
+{
+    int flag = 1;
+    Vector<int> a{1, 2, 3};
 
-void Tests::test_empty() {}
+    if (*a.begin() != 1)
+    {
+        flag = 0;
+    }
+
+    if (flag)
+    {
+        testSuccessful(__FUNCTION__);
+    }
+    else
+    {
+        testFailure(__FUNCTION__);
+    }
+}
+
+void Tests::test_end()
+{
+    int flag = 1;
+    Vector<int> a;
+
+    if (a.end() == (a.begin() + a.size() + 1)) //should point to memory after last element
+    {
+        flag = 0;
+    }
+    a = {4, 3, 2};
+
+    if (a.end() == (a.begin() + a.size() + 1)) //should point to memory after last element
+    {
+        flag = 0;
+    }
+
+    if (flag)
+    {
+        testSuccessful(__FUNCTION__);
+    }
+    else
+    {
+        testFailure(__FUNCTION__);
+    }
+}
+
+void Tests::test_at()
+{
+    int flag = 1;
+    Vector<int> a{1, 23};
+
+    if (a.at(0) != 1)
+    {
+        flag = 1;
+    }
+    try
+    {
+        a.at(3); //should throw exception
+    }
+    catch (const char *s)
+    {
+        if (!s) //exception was not caught
+        {
+            flag = 0;
+        }
+    }
+
+    if (flag)
+    {
+        testSuccessful(__FUNCTION__);
+    }
+    else
+    {
+        testFailure(__FUNCTION__);
+    }
+}
+
+void Tests::test_front()
+{
+    Vector<int> a{1};
+    if (a.front() == (a.back() == 1))
+    {
+        testSuccessful(__FUNCTION__);
+    }
+    else
+    {
+        testFailure(__FUNCTION__);
+    }
+}
+
+void Tests::test_back()
+{
+    Vector<int> a{1};
+
+    if (a.front() == (a.back() == 1))
+    {
+        testSuccessful(__FUNCTION__);
+    }
+    else
+    {
+        testFailure(__FUNCTION__);
+    }
+}
+
+void Tests::test_empty()
+{
+    int flag = 1;
+    Vector<int> a{1};
+
+    if (a.empty())
+    {
+        flag = 0;
+    }
+
+    a.pop_back();
+    if (!a.empty())
+    {
+        flag = 0;
+    }
+
+    if (flag)
+    {
+        testSuccessful(__FUNCTION__);
+    }
+    else
+    {
+        testFailure(__FUNCTION__);
+    }
+}
 
 void Tests::testSuccessful(const char *funcName)
 {
@@ -161,6 +324,57 @@ void Tests::testFailure(const char *funcName)
 }
 
 /*operators*/
-void Tests::test_copyAssignmentOperator() {}
-void Tests::test_randomAccessOperator() {}
-void Tests::test_assignWithInitializerListOperator() {}
+void Tests::test_copyAssignmentOperator()
+{
+    int flag = 1;
+    Vector<int> a{1, 2, 3};
+    Vector<int> b = a;
+    for (unsigned int i = 0; i < b.size(); ++i)
+    {
+        if (a[i] != b[i])
+        {
+            flag = 0;
+        }
+    }
+    if (flag)
+    {
+        testSuccessful(__FUNCTION__);
+    }
+    else
+    {
+        testFailure(__FUNCTION__);
+    }
+}
+void Tests::test_randomAccessOperator()
+{
+    int flag = 1;
+    Vector<int> a{1, 2, 3};
+    Vector<int> b = a;
+    for (unsigned int i = 0; i < b.size(); ++i)
+    {
+        if (a[i] != b[i])
+        {
+            flag = 0;
+        }
+    }
+    if (flag)
+    {
+        testSuccessful(__FUNCTION__);
+    }
+    else
+    {
+        testFailure(__FUNCTION__);
+    }
+}
+void Tests::test_assignWithInitializerListOperator()
+{
+    Vector<int> a = {1, 2, 3};
+    if (a.size() == 3)
+    {
+        testSuccessful(__FUNCTION__);
+    }
+    else
+    {
+        testFailure(__FUNCTION__);
+    }
+}

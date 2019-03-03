@@ -3,7 +3,7 @@
 #include <iostream>
 #include <typeinfo>
 
-const int RESERVE = 1; //we don't want to resize vector every time we add new elem
+const int RESERVE = 20; //we don't want to resize vector every time we add new elem
 
 template <class T>
 class Vector
@@ -161,7 +161,10 @@ void Vector<T>::push_back(const T &elem)
 template <class T>
 void Vector<T>::pop_back()
 {
-    --_size;
+    if (_size > 0)
+    {
+        --_size;
+    }
 }
 
 template <class T>
