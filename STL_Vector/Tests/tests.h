@@ -10,11 +10,12 @@ public:
   void test_constructor();
   void test_copyConstructor();
   void test_constructorInitializerList();
+  void test_moveConstructor();
   void test_deconstructor();
 
   /*regular public members to test*/
   void test_clear();     //clear contents of vector
-  void test_assign();    //todo
+  void test_assign();    //fill vector with new set of data
   void test_erase();     //remove element from given position
   void test_push_back(); //add element at the end of vec
   void test_pop_back();  //remove element from the end of vec
@@ -30,7 +31,7 @@ public:
   void test_copyAssignmentOperator(); //assign operator
   void test_randomAccessOperator();   //random access operator
   void test_assignWithInitializerListOperator();
-  void runAllTests();
+  void test_moveAssignmentOperator();
 
   /* iterator test*/
   void test_iterator();
@@ -39,6 +40,7 @@ public:
   /*test aid functions*/
   inline void testSuccessful(const char *funcName);
   inline void testFailure(const char *funcName);
+  void runAllTests();
 
 private:
   Vector<int> testVec;

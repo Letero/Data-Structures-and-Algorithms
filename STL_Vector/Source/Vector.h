@@ -1,8 +1,6 @@
 #ifndef VECTOR_H
 #define VECTOR_H
 #include <iostream>
-#include <typeinfo>
-
 //using anonymous namespace to avoid static initalization order fiasco
 namespace
 {
@@ -14,19 +12,24 @@ class Vector
 {
   public:
     /*constructors*/
-    Vector();                                      //default
-    Vector(const Vector &old);                     //copy constructor
-    Vector(const std::initializer_list<T> values); // constructor with initializer list
-    Vector(Vector &&old);                          //move constructor
-    ~Vector();                                     //deconstructor
+    Vector();                                     //default
+    Vector(const Vector &other);                  //copy constructor
+    Vector(const std::initializer_list<T> ilist); //constructor with initializer list
+    Vector(Vector &&other);                       //move constructor
+    ~Vector();                                    //deconstructor
 
     /*Iterator*/
     typedef T *iterator;
-    typedef T const *const_iterator;
+    typedef const T *const_iterator;
+    typedef T *reverse_iterator;
+    typedef const T *const const_reverse_iterator;
 
     /*non-constructor members*/
-    void clear();                  //clear contents of vector
-    void assign();                 //todo
+    void clear();                                //clear contents of vector
+    void assign(size_t count, const T &value);   //assigns new contents to the vector
+    void assign(std::initializer_list<T> ilist); //assing using initializer list
+    //template <class iterator>
+    //void assign(iterator first, iterator last); //assing using range
     void erase(const size_t pos);  //remove element from given position
     void push_back(const T &elem); //add element at the end of vec
     void pop_back();               //remove element from the end of vec
@@ -37,15 +40,16 @@ class Vector
     const_iterator cend();         //return const pointer to place after last elem
 
     T at(const size_t pos) const; //return element from given pos
-    T &front() const;             // return value of first elem in vector
+    T &front() const;             //return value of first elem in vector
     T &back() const;              //return value of last elem in vector
     bool empty() const;           //check if vector is empty
     /*operators*/
-    Vector &operator=(const Vector &old);                     //copy assignment operator
+    Vector &operator=(const Vector &other);                   //copy assignment operator
+    Vector &operator=(Vector &&other);                        //move assignment operator
     Vector &operator=(const std::initializer_list<T> values); //assign initializier list
     T &operator[](const size_t pos);                          //random access operator
   private:
-    T *arr;
+    T *_arr;
     const size_t _reserve;
     size_t _memSize;
     size_t _size;
@@ -58,7 +62,7 @@ Vector<T>::Vector() : _reserve(RESERVE()), _memSize(RESERVE())
 {
     try
     {
-        arr = new T[_reserve];
+        _arr = new T[_reserve];
         _size = 0;
     }
     catch (std::bad_alloc &ba)
@@ -68,14 +72,14 @@ Vector<T>::Vector() : _reserve(RESERVE()), _memSize(RESERVE())
 }
 
 template <class T>
-Vector<T>::Vector(const Vector &old) : _reserve(RESERVE())
+Vector<T>::Vector(const Vector &other) : _reserve(RESERVE())
 {
     try
     {
-        arr = new T[old._memSize];
-        arr = old.arr;
-        _size = old._size;
-        _memSize = old._memSize;
+        _arr = new T[other._memSize];
+        _arr = other._arr;
+        _size = other._size;
+        _memSize = other._memSize;
     }
     catch (std::bad_alloc &ba)
     {
@@ -84,10 +88,28 @@ Vector<T>::Vector(const Vector &old) : _reserve(RESERVE())
 }
 
 template <class T>
-Vector<T>::Vector(const std::initializer_list<T> values)
+Vector<T>::Vector(Vector &&other) : _reserve(RESERVE())
+{
+    try
+    {
+        _arr = other._arr;
+        _size = other._size;
+        _memSize = other._memSize;
+        other._arr = nullptr;
+        other._size = 0;
+        other._memSize = other._reserve;
+    }
+    catch (std::bad_alloc &ba)
+    {
+        std::cerr << "bad_alloc caught: " << ba.what() << '\n';
+    }
+}
+
+template <class T>
+Vector<T>::Vector(const std::initializer_list<T> ilist)
     : Vector()
 {
-    for (auto a : values)
+    for (auto a : ilist)
     {
         push_back(a);
     }
@@ -96,10 +118,10 @@ Vector<T>::Vector(const std::initializer_list<T> values)
 template <class T>
 Vector<T>::~Vector()
 {
-    if (arr != nullptr)
+    if (_arr != nullptr)
     {
-        delete[] arr;
-        arr = nullptr;
+        delete[] _arr;
+        _arr = nullptr;
     }
 }
 
@@ -108,11 +130,11 @@ void Vector<T>::clear() //clear the contents of vector
 {
     _size = 0;
     _memSize = _reserve;
-    delete[] arr;
+    delete[] _arr;
     try
     {
         T *nArr = new T[_memSize];
-        arr = nArr;
+        _arr = nArr;
     }
     catch (std::bad_alloc &ba)
     {
@@ -121,7 +143,23 @@ void Vector<T>::clear() //clear the contents of vector
 }
 
 template <class T>
-void Vector<T>::assign() {} //
+void Vector<T>::assign(size_t count, const T &value)
+{
+    unsigned int c = count;
+    while (c--)
+    {
+        push_back(value);
+    }
+}
+
+template <class T>
+void Vector<T>::assign(std::initializer_list<T> ilist)
+{
+    for (auto a : ilist)
+    {
+        push_back(a);
+    }
+}
 
 template <class T>
 void Vector<T>::erase(unsigned int pos)
@@ -137,14 +175,14 @@ void Vector<T>::erase(unsigned int pos)
             T *nArr = new T[_size - 1];
             for (int i = 0; i < pos; ++i)
             {
-                nArr[i] = arr[i];
+                nArr[i] = _arr[i];
             }
             for (int i = pos; i < _size - 1; ++i)
             {
-                nArr[i] = arr[i + 1];
+                nArr[i] = _arr[i + 1];
             }
-            delete[] arr;
-            arr = nArr;
+            delete[] _arr;
+            _arr = nArr;
             --_size;
         }
         catch (std::bad_alloc &ba)
@@ -161,7 +199,7 @@ void Vector<T>::erase(unsigned int pos)
 template <class T>
 void Vector<T>::push_back(const T &elem)
 {
-    arr[_size] = elem;
+    _arr[_size] = elem;
     _size++;
     if (_size >= _memSize || (_size % RESERVE() == 0))
     {
@@ -187,25 +225,25 @@ size_t Vector<T>::size() const
 template <class T>
 typename Vector<T>::iterator Vector<T>::begin()
 {
-    return &arr[0];
+    return &_arr[0];
 }
 
 template <class T>
 typename Vector<T>::const_iterator Vector<T>::cbegin()
 {
-    return &arr[0];
+    return &_arr[0];
 }
 
 template <class T>
 typename Vector<T>::iterator Vector<T>::end()
 {
-    return &arr[_size];
+    return &_arr[_size];
 }
 
 template <class T>
 typename Vector<T>::const_iterator Vector<T>::cend()
 {
-    return &arr[_size];
+    return &_arr[_size];
 }
 
 template <class T>
@@ -215,13 +253,13 @@ T Vector<T>::at(const unsigned int pos) const
     {
         throw "at() : Position out of range\n";
     }
-    return arr[pos];
+    return _arr[pos];
 }
 
 template <class T>
 T &Vector<T>::front() const
 {
-    return arr[0];
+    return _arr[0];
 }
 
 template <class T>
@@ -229,9 +267,9 @@ T &Vector<T>::back() const
 {
     if (_size > 0)
     {
-        return arr[_size - 1];
+        return _arr[_size - 1];
     }
-    return arr[_size];
+    return _arr[_size];
 }
 
 template <class T>
@@ -246,18 +284,18 @@ bool Vector<T>::empty() const
 
 /*operators*/
 template <class T>
-Vector<T> &Vector<T>::operator=(const Vector &old)
+Vector<T> &Vector<T>::operator=(const Vector &other)
 {
-    if (this != &old) // check if
+    if (this != &other) // check if
     {
-        if (arr)
+        if (_arr)
         {
-            delete[] arr;
+            delete[] _arr;
         }
-        _size = old._size;
-        _memSize = old._memSize;
-        arr = new T[_size];
-        arr = old.arr;
+        _size = other._size;
+        _memSize = other._memSize;
+        _arr = new T[_size];
+        _arr = other._arr;
     }
     return *this;
 }
@@ -272,9 +310,25 @@ Vector<T> &Vector<T>::operator=(const std::initializer_list<T> values)
 }
 
 template <class T>
+Vector<T> &Vector<T>::operator=(Vector &&other)
+{
+    if (this != &other)
+    {
+        _arr = other._arr;
+        _size = other._size;
+        _memSize = other._memSize;
+
+        other._arr = nullptr;
+        other._size = 0;
+        other._memSize = other._reserve;
+    }
+    return *this;
+}
+
+template <class T>
 T &Vector<T>::operator[](const size_t pos)
 {
-    return arr[pos];
+    return _arr[pos];
 }
 
 template <class T>
@@ -284,9 +338,9 @@ void Vector<T>::allocMoreMemory()
     {
         _memSize += _reserve;
         T *nArr = new T[_memSize];
-        memcpy(nArr, arr, (_memSize) * sizeof(T));
-        delete[] arr;
-        arr = nArr;
+        memcpy(nArr, _arr, (_memSize) * sizeof(T));
+        delete[] _arr;
+        _arr = nArr;
     }
     catch (std::bad_alloc &ba)
     {

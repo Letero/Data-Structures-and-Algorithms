@@ -12,6 +12,7 @@ void Tests::runAllTests()
     this->test_constructor();
     this->test_copyConstructor();
     this->test_constructorInitializerList();
+    this->test_moveConstructor();
     this->test_deconstructor();
     /*regular member functions*/
     this->test_clear();
@@ -30,11 +31,13 @@ void Tests::runAllTests()
     this->test_copyAssignmentOperator();
     this->test_assignWithInitializerListOperator();
     this->test_randomAccessOperator();
+    this->test_moveAssignmentOperator();
     /*iterators*/
     this->test_iterator();
     this->test_constIterator();
 }
 
+/*constructors*/
 void Tests::test_constructor()
 {
     Vector<int> newVec;
@@ -83,6 +86,20 @@ void Tests::test_constructorInitializerList()
     }
 }
 
+void Tests::test_moveConstructor()
+{
+    Vector<int> x{1, 2, 3};
+    Vector<int> y(std::move(x));
+    if ((x.size() == 0) && (y.size() == 3))
+    {
+        testSuccessful(__FUNCTION__);
+    }
+    else
+    {
+        testFailure(__FUNCTION__);
+    }
+}
+
 void Tests::test_deconstructor()
 {
 }
@@ -101,7 +118,35 @@ void Tests::test_clear()
     }
 }
 
-void Tests::test_assign() {}
+void Tests::test_assign()
+{
+    bool flag = 1;
+    //assign - count and value
+    Vector<int> vec;
+    vec.assign(5, 6);
+
+    if (!((vec.at(4) == 6) && vec.size() == 5))
+    {
+        flag = 0;
+    }
+    vec.clear();
+    //assign - initializer list
+    vec.assign({6, 6, 6, 6, 6});
+
+    if (!((vec.at(4) == 6) && vec.size() == 5))
+    {
+        flag = 0;
+    }
+
+    if (flag)
+    {
+        testSuccessful(__FUNCTION__);
+    }
+    else
+    {
+        testFailure(__FUNCTION__);
+    }
+}
 
 void Tests::test_erase()
 {
@@ -348,6 +393,7 @@ void Tests::test_copyAssignmentOperator()
         testFailure(__FUNCTION__);
     }
 }
+
 void Tests::test_randomAccessOperator()
 {
     int flag = 1;
@@ -369,6 +415,7 @@ void Tests::test_randomAccessOperator()
         testFailure(__FUNCTION__);
     }
 }
+
 void Tests::test_assignWithInitializerListOperator()
 {
     Vector<int> a = {1, 2, 3};
@@ -382,6 +429,22 @@ void Tests::test_assignWithInitializerListOperator()
     }
 }
 
+void Tests::test_moveAssignmentOperator()
+{
+    Vector<int> x{1, 2, 3};
+    Vector<int> y;
+    y = std::move(x);
+    if ((x.size() == 0) && (y.size() == 3))
+    {
+        testSuccessful(__FUNCTION__);
+    }
+    else
+    {
+        testFailure(__FUNCTION__);
+    }
+}
+
+/*iterators*/
 void Tests::test_iterator()
 {
     bool flag = 1;
