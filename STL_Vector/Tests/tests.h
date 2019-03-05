@@ -32,6 +32,9 @@ public:
   void test_assignWithInitializerListOperator();
   void runAllTests();
 
+  /* iterator test*/
+  void test_iterator();
+
   /*test aid functions*/
   inline void testSuccessful(const char *funcName);
   inline void testFailure(const char *funcName);

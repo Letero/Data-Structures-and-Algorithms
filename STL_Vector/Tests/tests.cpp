@@ -378,3 +378,25 @@ void Tests::test_assignWithInitializerListOperator()
         testFailure(__FUNCTION__);
     }
 }
+
+void Tests::test_iterator()
+{
+    bool flag = 1;
+    Vector<int>::iterator iter;
+    Vector<int> v{3, 3, 3, 3};
+    for (iter = v.begin(); iter != v.end(); iter++)
+    {
+        if (*iter != 3)
+        {
+            flag = 0;
+        }
+    }
+    if (flag)
+    {
+        testSuccessful(__FUNCTION__);
+    }
+    else
+    {
+        testFailure(__FUNCTION__);
+    }
+}

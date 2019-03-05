@@ -8,6 +8,5 @@ int main()
 {
     Tests newTests;
     newTests.runAllTests();
-
     return 0;
 }

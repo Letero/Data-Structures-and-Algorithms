@@ -3,12 +3,16 @@
 #include <iostream>
 #include <typeinfo>
 
-const int RESERVE = 20; //we don't want to resize vector every time we add new elem
+//using anonymous namespace to avoid static initalization order fiasco
+namespace
+{
+inline int RESERVE() { return 20; } //we don't want to resize vector every time we add new elem
+} // namespace
 
 template <class T>
 class Vector
 {
-public:
+  public:
     /*constructors*/
     Vector();                                      //default
     Vector(const Vector &old);                     //copy constructor
@@ -32,12 +36,11 @@ public:
     Vector &operator=(const Vector &old);                     //copy assignment operator
     Vector &operator=(const std::initializer_list<T> values); //assign initializier list
     T &operator[](const size_t pos);                          //random access operator
-    /*Iterator *
-    typedef T *iterator;
-    iterator begin();
-    iterator end();*/
 
-private:
+    /*Iterator*/
+    typedef T *iterator;
+
+  private:
     T *arr;
     const size_t _reserve;
     size_t _memSize;
@@ -47,7 +50,7 @@ private:
 };
 
 template <class T>
-Vector<T>::Vector() : _reserve(RESERVE), _memSize(RESERVE)
+Vector<T>::Vector() : _reserve(RESERVE()), _memSize(RESERVE())
 {
     try
     {
@@ -61,7 +64,7 @@ Vector<T>::Vector() : _reserve(RESERVE), _memSize(RESERVE)
 }
 
 template <class T>
-Vector<T>::Vector(const Vector &old) : _reserve(RESERVE)
+Vector<T>::Vector(const Vector &old) : _reserve(RESERVE())
 {
     try
     {
@@ -89,7 +92,11 @@ Vector<T>::Vector(const std::initializer_list<T> values)
 template <class T>
 Vector<T>::~Vector()
 {
-    delete[] arr;
+    if (arr != nullptr)
+    {
+        delete[] arr;
+        arr = nullptr;
+    }
 }
 
 template <class T>
@@ -152,7 +159,7 @@ void Vector<T>::push_back(const T &elem)
 {
     arr[_size] = elem;
     _size++;
-    if (_size >= _memSize || (_size % RESERVE == 0))
+    if (_size >= _memSize || (_size % RESERVE() == 0))
     {
         allocMoreMemory();
     }
