@@ -17,7 +17,12 @@ class Vector
     Vector();                                      //default
     Vector(const Vector &old);                     //copy constructor
     Vector(const std::initializer_list<T> values); // constructor with initializer list
+    Vector(Vector &&old);                          //move constructor
     ~Vector();                                     //deconstructor
+
+    /*Iterator*/
+    typedef T *iterator;
+    typedef T const *const_iterator;
 
     /*non-constructor members*/
     void clear();                  //clear contents of vector
@@ -26,10 +31,10 @@ class Vector
     void push_back(const T &elem); //add element at the end of vec
     void pop_back();               //remove element from the end of vec
     size_t size() const;           //return size of vec
-    T *begin() const;              //return pointer to first elem
-    const T *cbegin() const;       //return const pointer to first elem
-    T *end() const;                //return pointer to place after last elem
-    const T *cend() const;         //return const pointer to place after last elem
+    iterator begin();              //return pointer to first elem
+    const_iterator cbegin();       //return const pointer to first elem
+    iterator end();                //return pointer to place after last elem
+    const_iterator cend();         //return const pointer to place after last elem
 
     T at(const size_t pos) const; //return element from given pos
     T &front() const;             // return value of first elem in vector
@@ -39,11 +44,6 @@ class Vector
     Vector &operator=(const Vector &old);                     //copy assignment operator
     Vector &operator=(const std::initializer_list<T> values); //assign initializier list
     T &operator[](const size_t pos);                          //random access operator
-
-    /*Iterator*/
-    typedef T *iterator;
-    typedef const T *const_iterator;
-
   private:
     T *arr;
     const size_t _reserve;
@@ -185,25 +185,25 @@ size_t Vector<T>::size() const
 }
 
 template <class T>
-T *Vector<T>::begin() const
+typename Vector<T>::iterator Vector<T>::begin()
 {
     return &arr[0];
 }
 
 template <class T>
-const T *Vector<T>::cbegin() const
+typename Vector<T>::const_iterator Vector<T>::cbegin()
 {
     return &arr[0];
 }
 
 template <class T>
-T *Vector<T>::end() const
+typename Vector<T>::iterator Vector<T>::end()
 {
     return &arr[_size];
 }
 
 template <class T>
-const T *Vector<T>::cend() const
+typename Vector<T>::const_iterator Vector<T>::cend()
 {
     return &arr[_size];
 }
