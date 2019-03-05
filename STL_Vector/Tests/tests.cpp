@@ -30,6 +30,9 @@ void Tests::runAllTests()
     this->test_copyAssignmentOperator();
     this->test_assignWithInitializerListOperator();
     this->test_randomAccessOperator();
+    /*iterators*/
+    this->test_iterator();
+    this->test_constIterator();
 }
 
 void Tests::test_constructor()
@@ -385,6 +388,28 @@ void Tests::test_iterator()
     Vector<int>::iterator iter;
     Vector<int> v{3, 3, 3, 3};
     for (iter = v.begin(); iter != v.end(); iter++)
+    {
+        if (*iter != 3)
+        {
+            flag = 0;
+        }
+    }
+    if (flag)
+    {
+        testSuccessful(__FUNCTION__);
+    }
+    else
+    {
+        testFailure(__FUNCTION__);
+    }
+}
+
+void Tests::test_constIterator()
+{
+    bool flag = 1;
+    Vector<int>::const_iterator iter;
+    Vector<int> v{3, 3, 3, 3};
+    for (iter = v.cbegin(); iter != v.cend(); iter++)
     {
         if (*iter != 3)
         {

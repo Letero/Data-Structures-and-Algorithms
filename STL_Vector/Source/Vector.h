@@ -25,13 +25,16 @@ class Vector
     void erase(const size_t pos);  //remove element from given position
     void push_back(const T &elem); //add element at the end of vec
     void pop_back();               //remove element from the end of vec
-    size_t size();                 //return size of vec
-    T *begin();                    //return pointer to first elem
-    T *end();                      //return pointer to place after last elem
-    T at(const size_t pos);        //return element from given pos
-    T &front();                    // return value of first elem in vector
-    T &back();                     //return value of last elem in vector
-    bool empty();                  //check if vector is empty
+    size_t size() const;           //return size of vec
+    T *begin() const;              //return pointer to first elem
+    const T *cbegin() const;       //return const pointer to first elem
+    T *end() const;                //return pointer to place after last elem
+    const T *cend() const;         //return const pointer to place after last elem
+
+    T at(const size_t pos) const; //return element from given pos
+    T &front() const;             // return value of first elem in vector
+    T &back() const;              //return value of last elem in vector
+    bool empty() const;           //check if vector is empty
     /*operators*/
     Vector &operator=(const Vector &old);                     //copy assignment operator
     Vector &operator=(const std::initializer_list<T> values); //assign initializier list
@@ -39,6 +42,7 @@ class Vector
 
     /*Iterator*/
     typedef T *iterator;
+    typedef const T *const_iterator;
 
   private:
     T *arr;
@@ -175,25 +179,37 @@ void Vector<T>::pop_back()
 }
 
 template <class T>
-size_t Vector<T>::size()
+size_t Vector<T>::size() const
 {
     return _size;
 }
 
 template <class T>
-T *Vector<T>::begin()
+T *Vector<T>::begin() const
 {
     return &arr[0];
 }
 
 template <class T>
-T *Vector<T>::end()
+const T *Vector<T>::cbegin() const
+{
+    return &arr[0];
+}
+
+template <class T>
+T *Vector<T>::end() const
 {
     return &arr[_size];
 }
 
 template <class T>
-T Vector<T>::at(const unsigned int pos)
+const T *Vector<T>::cend() const
+{
+    return &arr[_size];
+}
+
+template <class T>
+T Vector<T>::at(const unsigned int pos) const
 {
     if (pos >= _size)
     {
@@ -203,13 +219,13 @@ T Vector<T>::at(const unsigned int pos)
 }
 
 template <class T>
-T &Vector<T>::front()
+T &Vector<T>::front() const
 {
     return arr[0];
 }
 
 template <class T>
-T &Vector<T>::back()
+T &Vector<T>::back() const
 {
     if (_size > 0)
     {
@@ -219,7 +235,7 @@ T &Vector<T>::back()
 }
 
 template <class T>
-bool Vector<T>::empty()
+bool Vector<T>::empty() const
 {
     if (_size == 0)
     {

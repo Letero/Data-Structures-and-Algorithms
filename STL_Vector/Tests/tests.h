@@ -34,6 +34,7 @@ public:
 
   /* iterator test*/
   void test_iterator();
+  void test_constIterator();
 
   /*test aid functions*/
   inline void testSuccessful(const char *funcName);
