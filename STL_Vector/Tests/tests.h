@@ -2,10 +2,10 @@
 #define TESTS_H
 #include "../Source/Vector.h"
 
-class Tests
+struct Tests
 {
-public:
   Tests();
+  ~Tests();
   /*constructors to test */
   void test_constructor();
   void test_copyConstructor();
@@ -41,8 +41,5 @@ public:
   inline void testSuccessful(const char *funcName);
   inline void testFailure(const char *funcName);
   void runAllTests();
-
-private:
-  Vector<int> testVec;
 };
 #endif //TESTS_H

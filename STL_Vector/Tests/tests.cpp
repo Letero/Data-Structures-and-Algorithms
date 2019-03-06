@@ -1,20 +1,20 @@
 #include <iostream>
 #include "tests.h"
-#include <typeinfo>
-Tests::Tests()
-{
-    testVec = {1, 2, 3, 4, 5};
-}
+
+Tests::Tests() {}
+
+Tests::~Tests() {}
 
 void Tests::runAllTests()
 {
-    /*constructors*/
+    //constructors
     this->test_constructor();
     this->test_copyConstructor();
     this->test_constructorInitializerList();
     this->test_moveConstructor();
     this->test_deconstructor();
-    /*regular member functions*/
+
+    //regular member functions
     this->test_clear();
     this->test_assign();
     this->test_erase();
@@ -27,12 +27,14 @@ void Tests::runAllTests()
     this->test_front();
     this->test_back();
     this->test_empty();
-    /*operators*/
+
+    //operators
     this->test_copyAssignmentOperator();
     this->test_assignWithInitializerListOperator();
     this->test_randomAccessOperator();
     this->test_moveAssignmentOperator();
-    /*iterators*/
+
+    //iterators
     this->test_iterator();
     this->test_constIterator();
 }
@@ -53,8 +55,9 @@ void Tests::test_constructor()
 
 void Tests::test_copyConstructor()
 {
-    Vector<int> newVec(testVec);
-    if (newVec.size() == 5)
+    Vector<int> x{1, 2, 3};
+    Vector<int> newVec(x);
+    if (newVec.size() == 3)
     {
         testSuccessful(__FUNCTION__);
     }
@@ -106,7 +109,7 @@ void Tests::test_deconstructor()
 
 void Tests::test_clear()
 {
-    Vector<int> nVec = testVec;
+    Vector<int> nVec{1, 2, 3};
     nVec.clear();
     if (nVec.size() == 0)
     {
@@ -170,10 +173,12 @@ void Tests::test_erase()
 
 void Tests::test_push_back()
 {
-    Vector<int> a{33, 33, 33, 33, 33, 33, 33, 33, 33, 33, 33, 33, 33, 33, 33, 33, 33, 33, 33, 33, 33};
-    Vector<Vector<int>> nVec;
-    nVec.push_back(a);
-    if ((nVec[0][20] == 33))
+    Vector<int> a;
+    for (int i = 0; i < 50; ++i)
+    {
+        a.push_back(33);
+    }
+    if (a[20] == 33)
     {
         testSuccessful(__FUNCTION__);
     }
