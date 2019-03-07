@@ -162,18 +162,24 @@ void Tests::test_erase()
 {
 
     Vector<int> nVec = {1, 2, 3, 4, 5};
-    nVec.erase(0);
-    nVec.erase(0);
-    nVec.erase(0);
-    nVec.erase(0);
-    nVec.erase(0);
+    Vector<int>::iterator x = nVec.begin();
+    nVec.erase(x, nVec.end());
+    for (auto &a : nVec)
+    {
+        std::cout << a << " ";
+    }
+    std::cout << std::endl;
+    nVec.erase(x);
+    nVec.erase(x);
+    nVec.erase(x);
+    nVec.erase(x);
+
     if (nVec.size() == 0)
     {
         testSuccessful(__FUNCTION__);
     }
     else
     {
-        std::cout << nVec.size();
         testFailure(__FUNCTION__);
     }
 }

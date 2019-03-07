@@ -26,18 +26,19 @@ class Vector
     void assign(std::initializer_list<T> ilist); //assing using initializer list
     //template <class iterator>
     //void assign(iterator first, iterator last); //assing using range
-    void erase(const size_t pos);       //remove element from given position
-    void push_back(const T &elem);      //add element at the end of vec
-    void pop_back();                    //remove element from the end of vec
-    iterator begin();                   //return pointer to first elem
-    const_iterator cbegin();            //return const pointer to first elem
-    iterator end();                     //return pointer to place after last elem
-    const_iterator cend();              //return const pointer to place after last elem
-    T at(const size_t pos) const;       //return element from given pos
-    T &front() const;                   //return value of first elem in vector
-    T &back() const;                    //return value of last elem in vector
-    bool empty() const;                 //check if vector is empty
-    void reserve(const size_t &newCap); //change vector capacity to given size
+    void erase(const_iterator pos);                        //remove element from given position
+    void erase(const_iterator first, const_iterator last); //remove element from given position
+    void push_back(const T &elem);                         //add element at the end of vec
+    void pop_back();                                       //remove element from the end of vec
+    iterator begin();                                      //return pointer to first elem
+    const_iterator cbegin();                               //return const pointer to first elem
+    iterator end();                                        //return pointer to place after last elem
+    const_iterator cend();                                 //return const pointer to place after last elem
+    T at(const size_t pos) const;                          //return element from given pos
+    T &front() const;                                      //return value of first elem in vector
+    T &back() const;                                       //return value of last elem in vector
+    bool empty() const;                                    //check if vector is empty
+    void reserve(const size_t &newCap);                    //change vector capacity to given size
     void resize(size_t count);
     void resize(size_t count, const T &value);
     size_t size() const;     //return size of vec
@@ -147,38 +148,25 @@ void Vector<T>::assign(std::initializer_list<T> ilist)
 }
 
 template <class T>
-void Vector<T>::erase(unsigned int pos)
+void Vector<T>::erase(const_iterator pos)
 {
-    if (_size == 0)
+    if (begin() == end())
     {
         return;
     }
-    if (pos < _size)
+    ++pos;
+    --_size;
+}
+
+template <class T>
+void Vector<T>::erase(const_iterator first, const_iterator last)
+{
+    if (begin() == end())
     {
-        try
-        {
-            T *nArr = new T[_size - 1];
-            for (int i = 0; i < pos; ++i)
-            {
-                nArr[i] = _arr[i];
-            }
-            for (int i = pos; i < _size - 1; ++i)
-            {
-                nArr[i] = _arr[i + 1];
-            }
-            delete[] _arr;
-            _arr = nArr;
-            --_size;
-        }
-        catch (std::bad_alloc &ba)
-        {
-            std::cerr << "bad_alloc caught: " << ba.what() << '\n';
-        }
+        return;
     }
-    else
-    {
-        throw "erase() : Position out of range\n";
-    }
+    _size -= last - first;
+    first = last;
 }
 
 template <class T>
@@ -431,7 +419,7 @@ void Vector<T>::resize(size_t count, const T &value)
             memcpy(nArr, _arr, (_size) * sizeof(T));
             delete[] _arr;
         }
-        
+
         _arr = nArr;
         for (size_t i = oldSize; i < _size; ++i)
         {
