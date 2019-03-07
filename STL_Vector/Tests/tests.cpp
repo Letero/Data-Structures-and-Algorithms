@@ -1,5 +1,6 @@
 #include <iostream>
 #include "tests.h"
+#include <climits>
 
 Tests::Tests() {}
 
@@ -22,11 +23,17 @@ void Tests::runAllTests()
     this->test_pop_back();
     this->test_size();
     this->test_begin();
+    this->test_cbegin();
     this->test_end();
+    this->test_cend();
     this->test_at();
     this->test_front();
     this->test_back();
     this->test_empty();
+    this->test_max_size();
+    this->test_capacity();
+    this->test_reserve();
+    this->test_resize();
 
     //operators
     this->test_copyAssignmentOperator();
@@ -257,18 +264,64 @@ void Tests::test_begin()
     }
 }
 
+void Tests::test_cbegin()
+{
+    int flag = 1;
+    Vector<int> a{1, 2, 3};
+
+    if (*a.cbegin() != 1)
+    {
+        flag = 0;
+    }
+
+    if (flag)
+    {
+        testSuccessful(__FUNCTION__);
+    }
+    else
+    {
+        testFailure(__FUNCTION__);
+    }
+}
+
 void Tests::test_end()
 {
     int flag = 1;
     Vector<int> a;
 
-    if (a.end() == (a.begin() + a.size() + 1)) //should point to memory after last element
+    if (a.end() == (a.cbegin() + a.size() + 1)) //should point to memory after last element
     {
         flag = 0;
     }
     a = {4, 3, 2};
 
-    if (a.end() == (a.begin() + a.size() + 1)) //should point to memory after last element
+    if (a.end() == (a.cbegin() + a.size() + 1)) //should point to memory after last element
+    {
+        flag = 0;
+    }
+
+    if (flag)
+    {
+        testSuccessful(__FUNCTION__);
+    }
+    else
+    {
+        testFailure(__FUNCTION__);
+    }
+}
+
+void Tests::test_cend()
+{
+    int flag = 1;
+    Vector<int> a;
+
+    if (a.cend() == (a.begin() + a.size() + 1)) //should point to memory after last element
+    {
+        flag = 0;
+    }
+    a = {4, 3, 2};
+
+    if (a.cend() == (a.begin() + a.size() + 1)) //should point to memory after last element
     {
         flag = 0;
     }
@@ -367,6 +420,106 @@ void Tests::test_empty()
     }
 }
 
+void Tests::test_max_size()
+{
+    Vector<int> a;
+    if (a.max_size() == UINT_MAX)
+    {
+        testSuccessful(__FUNCTION__);
+    }
+    else
+    {
+        testFailure(__FUNCTION__);
+    }
+}
+
+void Tests::test_capacity()
+{
+    bool flag = 1;
+    Vector<int> a;
+
+    if (a.capacity() != 0)
+    {
+        flag = 0;
+    }
+
+    a.push_back(5);
+    if (a.capacity() != 1)
+    {
+        flag = 0;
+    }
+
+    a.push_back(5);
+    if (a.capacity() != 2)
+    {
+        flag = 0;
+    }
+
+    if (flag)
+    {
+        testSuccessful(__FUNCTION__);
+    }
+    else
+    {
+        testFailure(__FUNCTION__);
+    }
+}
+
+void Tests::test_reserve()
+{
+    int flag = 1;
+    Vector<int> a;
+
+    if (a.capacity() != 0)
+    {
+        flag = 0;
+    }
+
+    a.reserve(400);
+    if (a.capacity() != 400)
+    {
+        flag = 0;
+    }
+
+    if (flag)
+    {
+        testSuccessful(__FUNCTION__);
+    }
+    else
+    {
+        testFailure(__FUNCTION__);
+    }
+}
+
+void Tests::test_resize()
+{
+    bool flag = 1;
+    Vector<int> x{1, 2, 3};
+    x.resize(5);
+
+    if (x.size() != 5)
+    {
+        flag = 0;
+    }
+
+    x.resize(10, 55);
+
+    if (x[8] != 55)
+    {
+        flag = 0;
+    }
+
+    if (flag)
+    {
+        testSuccessful(__FUNCTION__);
+    }
+    else
+    {
+        testFailure(__FUNCTION__);
+    }
+}
+
+//helper functions
 void Tests::testSuccessful(const char *funcName)
 {
     std::cout << funcName << ": Success" << std::endl;

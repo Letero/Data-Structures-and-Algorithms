@@ -1,6 +1,7 @@
 #ifndef VECTOR_H
 #define VECTOR_H
 #include <iostream>
+#include <climits> //max size of size_t
 
 template <class T>
 class Vector
@@ -25,21 +26,27 @@ class Vector
     void assign(std::initializer_list<T> ilist); //assing using initializer list
     //template <class iterator>
     //void assign(iterator first, iterator last); //assing using range
-    void erase(const size_t pos);  //remove element from given position
-    void push_back(const T &elem); //add element at the end of vec
-    void pop_back();               //remove element from the end of vec
-    size_t size() const;           //return size of vec
-    iterator begin();              //return pointer to first elem
-    const_iterator cbegin();       //return const pointer to first elem
-    iterator end();                //return pointer to place after last elem
-    const_iterator cend();         //return const pointer to place after last elem
+    void erase(const size_t pos);       //remove element from given position
+    void push_back(const T &elem);      //add element at the end of vec
+    void pop_back();                    //remove element from the end of vec
+    iterator begin();                   //return pointer to first elem
+    const_iterator cbegin();            //return const pointer to first elem
+    iterator end();                     //return pointer to place after last elem
+    const_iterator cend();              //return const pointer to place after last elem
+    T at(const size_t pos) const;       //return element from given pos
+    T &front() const;                   //return value of first elem in vector
+    T &back() const;                    //return value of last elem in vector
+    bool empty() const;                 //check if vector is empty
+    void reserve(const size_t &newCap); //change vector capacity to given size
+    void resize(size_t count);
+    void resize(size_t count, const T &value);
+    size_t size() const;     //return size of vec
+    size_t max_size() const; //return max size of vector
+    size_t capacity() const; //return actual capacity of vector
 
-    T at(const size_t pos) const; //return element from given pos
-    T &front() const;             //return value of first elem in vector
-    T &back() const;              //return value of last elem in vector
-    bool empty() const;           //check if vector is empty
     /*operators*/
-    Vector &operator=(const Vector &other);                  //copy assignment operator
+    Vector &
+    operator=(const Vector &other);                          //copy assignment operator
     Vector &operator=(Vector &&other);                       //move assignment operator
     Vector &operator=(const std::initializer_list<T> ilist); //assign initializier list
     T &operator[](const size_t pos);                         //random access operator
@@ -48,7 +55,6 @@ class Vector
     size_t _capacity;
     size_t _size;
     void allocMoreMemory();
-    void reserve(size_t newCap);
 };
 
 template <class T>
@@ -325,17 +331,112 @@ void Vector<T>::allocMoreMemory()
     try
     {
         T *nArr = new T[_capacity];
-        if (_capacity > 1)
+
+        if (_arr != nullptr)
         {
             memcpy(nArr, _arr, (_capacity) * sizeof(T));
+            delete[] _arr;
         }
-        delete[] _arr;
-
         _arr = nArr;
     }
     catch (std::bad_alloc &ba)
     {
         std::cerr << "bad_alloc caught: " << ba.what() << '\n';
+    }
+}
+
+template <class T>
+void Vector<T>::reserve(const size_t &new_cap)
+{
+    if (new_cap <= _capacity)
+    {
+        return;
+    }
+    else
+    {
+        if (new_cap > max_size())
+        {
+            throw "reserve(): New capacity is larger than max_size()!";
+        }
+        else
+        {
+            _capacity = new_cap;
+        }
+    }
+    try
+    {
+        T *nArr = new T[_capacity];
+
+        if (_arr != nullptr)
+        {
+            memcpy(nArr, _arr, (_capacity) * sizeof(T));
+            delete[] _arr;
+        }
+        _arr = nArr;
+    }
+    catch (std::bad_alloc &ba)
+    {
+        std::cerr << "bad_alloc caught: " << ba.what() << '\n';
+    }
+}
+
+template <class T>
+size_t Vector<T>::max_size() const
+{
+    return UINT_MAX;
+}
+
+template <class T>
+size_t Vector<T>::capacity() const
+{
+    return _capacity;
+}
+
+template <class T>
+void Vector<T>::resize(size_t count)
+{
+    if (count > _size)
+    {
+        while (count > _capacity)
+        {
+            allocMoreMemory();
+        }
+        _size = count;
+        T *nArr = new T[_size];
+
+        if (_arr != nullptr)
+        {
+            memcpy(nArr, _arr, (_size) * sizeof(T));
+            delete[] _arr;
+        }
+        _arr = nArr;
+    }
+}
+
+template <class T>
+void Vector<T>::resize(size_t count, const T &value)
+{
+    if (count > _size)
+    {
+        while (count > _capacity)
+        {
+            allocMoreMemory();
+        }
+        size_t oldSize = _size;
+        _size = count;
+        T *nArr = new T[_size];
+
+        if (_arr != nullptr)
+        {
+            memcpy(nArr, _arr, (_size) * sizeof(T));
+            delete[] _arr;
+        }
+        
+        _arr = nArr;
+        for (size_t i = oldSize; i < _size; ++i)
+        {
+            _arr[i] = value;
+        }
     }
 }
 
