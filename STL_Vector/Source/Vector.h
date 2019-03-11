@@ -155,7 +155,7 @@ void Vector<T>::erase(const_iterator pos)
         return;
     }
 
-    size_t index = (pos - begin());
+    const size_t index = (pos - begin());
 
     if (index < _size)
     {
@@ -179,9 +179,9 @@ void Vector<T>::erase(const_iterator first, const_iterator last)
     {
         return;
     }
-    int indexA = first - begin();
-    int indexB = last - begin();
-    int diff = indexB - indexA;
+    const int indexA = first - begin();
+    const int indexB = last - begin();
+    const int diff = indexB - indexA;
     _size -= diff;
     for (int i = indexA; i < _size; ++i)
     {
