@@ -154,19 +154,39 @@ void Vector<T>::erase(const_iterator pos)
     {
         return;
     }
-    ++pos;
-    --_size;
+
+    size_t index = (pos - begin());
+
+    if (index < _size)
+    {
+        for (int i = index; i < _size; ++i)
+        {
+            _arr[i] = _arr[i + 1];
+        }
+        --_size;
+    }
+    else
+    {
+        throw "erase() : Position out of range\n";
+    }
 }
 
 template <class T>
 void Vector<T>::erase(const_iterator first, const_iterator last)
 {
+
     if (begin() == end())
     {
         return;
     }
-    _size -= last - first;
-    first = last;
+    int indexA = first - begin();
+    int indexB = last - begin();
+    int diff = indexB - indexA;
+    _size -= diff;
+    for (int i = indexA; i < _size; ++i)
+    {
+        _arr[i] = _arr[i + diff];
+    }
 }
 
 template <class T>
@@ -198,13 +218,13 @@ size_t Vector<T>::size() const
 template <class T>
 typename Vector<T>::iterator Vector<T>::begin()
 {
-    return &_arr[0];
+    return _arr;
 }
 
 template <class T>
 typename Vector<T>::const_iterator Vector<T>::cbegin()
 {
-    return &_arr[0];
+    return _arr;
 }
 
 template <class T>

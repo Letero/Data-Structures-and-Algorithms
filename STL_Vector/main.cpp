@@ -5,19 +5,16 @@
 
 int main()
 {
-    Tests newTests;
-    //newTests.runAllTests();
-    //newTests.test_erase();
-
-    std::vector<int> x{1, 2, 3};
-    std::vector<int>::iterator y = x.begin();
-
-    x.erase(y + 1, x.end());
-    for (auto &a : x)
+    try
     {
-        std::cout << a << " ";
+        Tests newTests;
+        newTests.runAllTests();
+        //newTests.test_erase();
     }
-    std::cout << "\n";
+    catch (const char *s)
+    {
+        std::cout << s;
+    }
 
     return 0;
 }

@@ -160,21 +160,30 @@ void Tests::test_assign()
 
 void Tests::test_erase()
 {
-
+    bool flag = 1;
     Vector<int> nVec = {1, 2, 3, 4, 5};
     Vector<int>::iterator x = nVec.begin();
-    nVec.erase(x, nVec.end());
-    for (auto &a : nVec)
+    nVec.erase(x);
+
+    if (nVec[0] == 1)
     {
-        std::cout << a << " ";
+        flag = 0;
     }
-    std::cout << std::endl;
-    nVec.erase(x);
-    nVec.erase(x);
+
+    nVec.erase(x, x + 3);
+    if (nVec[0] != 5)
+    {
+        flag = 0;
+    }
     nVec.erase(x);
     nVec.erase(x);
 
-    if (nVec.size() == 0)
+    if (nVec.size() != 0)
+    {
+        flag = 0;
+    }
+
+    if (flag)
     {
         testSuccessful(__FUNCTION__);
     }
