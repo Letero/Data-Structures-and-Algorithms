@@ -139,11 +139,17 @@ void Tests::test_assign()
     {
         flag = 0;
     }
-    vec.clear();
     //assign - initializer list
     vec.assign({6, 6, 6, 6, 6});
 
     if (!((vec.at(4) == 6) && vec.size() == 5))
+    {
+        flag = 0;
+    }
+    //assign range
+    int arr[5] = {1, 2, 3, 4, 5};
+    vec.assign(arr, arr + 5);
+    if (!((vec.at(4) == 5) && vec.size() == 5))
     {
         flag = 0;
     }

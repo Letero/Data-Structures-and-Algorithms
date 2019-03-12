@@ -21,11 +21,10 @@ class Vector
     typedef const T *const const_reverse_iterator;
 
     /*non-constructor members*/
-    void clear();                                //clear contents of vector
-    void assign(size_t count, const T &value);   //assigns new contents to the vector
-    void assign(std::initializer_list<T> ilist); //assing using initializer list
-    //template <class iterator>
-    //void assign(iterator first, iterator last); //assing using range
+    void clear();                                          //clear contents of vector
+    void assign(size_t count, const T &value);             //assigns new contents to the vector
+    void assign(std::initializer_list<T> ilist);           //assing using initializer list
+    void assign(iterator first, iterator last);            //assing using range
     void erase(const_iterator pos);                        //remove element from given position
     void erase(const_iterator first, const_iterator last); //remove element from given position
     void push_back(const T &elem);                         //add element at the end of vec
@@ -112,6 +111,14 @@ Vector<T>::Vector(const std::initializer_list<T> ilist)
 template <class T>
 Vector<T>::~Vector()
 {
+    clear();
+}
+
+template <class T>
+void Vector<T>::clear() //clear the contents of vector
+{
+    _size = 0;
+    _capacity = 0;
     if (_arr != nullptr)
     {
         delete[] _arr;
@@ -120,19 +127,10 @@ Vector<T>::~Vector()
 }
 
 template <class T>
-void Vector<T>::clear() //clear the contents of vector
-{
-    _size = 0;
-    _capacity = 0;
-    delete[] _arr;
-    _arr = nullptr;
-}
-
-template <class T>
 void Vector<T>::assign(size_t count, const T &value)
 {
-    unsigned int c = count;
-    while (c--)
+    clear();
+    while (count--)
     {
         push_back(value);
     }
@@ -141,9 +139,22 @@ void Vector<T>::assign(size_t count, const T &value)
 template <class T>
 void Vector<T>::assign(std::initializer_list<T> ilist)
 {
+    clear();
     for (auto a : ilist)
     {
         push_back(a);
+    }
+}
+
+template <class T>
+void Vector<T>::assign(iterator first, iterator last)
+{
+    clear();
+    Vector<T>::iterator it;
+
+    for (it = first; it != last; ++it)
+    {
+        push_back(*it);
     }
 }
 

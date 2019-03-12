@@ -8,8 +8,8 @@ int main()
     try
     {
         Tests newTests;
-        newTests.runAllTests();
-        //newTests.test_erase();
+        //newTests.runAllTests();
+        newTests.test_assign();
     }
     catch (const char *s)
     {
