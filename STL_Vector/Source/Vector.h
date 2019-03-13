@@ -7,20 +7,29 @@ template <class T>
 class Vector
 {
   public:
-    /*constructors*/
+    //constructors
     Vector();                                     //default
     Vector(const Vector &other);                  //copy constructor
     Vector(const std::initializer_list<T> ilist); //constructor with initializer list
     Vector(Vector &&other);                       //move constructor
     ~Vector();                                    //deconstructor
 
-    /*Iterator*/
+    //Iterator
     typedef T *iterator;
     typedef const T *const_iterator;
     typedef T *reverse_iterator;
-    typedef const T *const const_reverse_iterator;
+    typedef const T *const_reverse_iterator;
 
-    /*non-constructor members*/
+    iterator begin();                 //return pointer to first elem
+    const_iterator cbegin();          //return const pointer to first elem
+    iterator end();                   //return pointer to place after last elem
+    const_iterator cend();            //return const pointer to place after last elem
+    reverse_iterator rbegin();        //return pointer to place after last elem
+    const_reverse_iterator crbegin(); //return const pointer to place after last elem
+    reverse_iterator rend();          //return pointer to first elem
+    const_reverse_iterator crend();   //return const pointer to first elem
+
+    //non-constructor members
     void clear();                                          //clear contents of vector
     void assign(size_t count, const T &value);             //assigns new contents to the vector
     void assign(std::initializer_list<T> ilist);           //assing using initializer list
@@ -29,10 +38,6 @@ class Vector
     void erase(const_iterator first, const_iterator last); //remove element from given position
     void push_back(const T &elem);                         //add element at the end of vec
     void pop_back();                                       //remove element from the end of vec
-    iterator begin();                                      //return pointer to first elem
-    const_iterator cbegin();                               //return const pointer to first elem
-    iterator end();                                        //return pointer to place after last elem
-    const_iterator cend();                                 //return const pointer to place after last elem
     T at(const size_t pos) const;                          //return element from given pos
     T &front() const;                                      //return value of first elem in vector
     T &back() const;                                       //return value of last elem in vector
@@ -44,12 +49,13 @@ class Vector
     size_t max_size() const; //return max size of vector
     size_t capacity() const; //return actual capacity of vector
 
-    /*operators*/
+    //operators
     Vector &
     operator=(const Vector &other);                          //copy assignment operator
     Vector &operator=(Vector &&other);                       //move assignment operator
     Vector &operator=(const std::initializer_list<T> ilist); //assign initializier list
     T &operator[](const size_t pos);                         //random access operator
+
   private:
     T *_arr;
     size_t _capacity;
@@ -248,6 +254,26 @@ template <class T>
 typename Vector<T>::const_iterator Vector<T>::cend()
 {
     return &_arr[_size];
+}
+
+template <class T>
+typename Vector<T>::reverse_iterator rbegin()
+{
+}
+
+template <class T>
+typename Vector<T>::const_reverse_iterator crbegin()
+{
+}
+
+template <class T>
+typename Vector<T>::reverse_iterator rend()
+{
+}
+
+template <class T>
+typename Vector<T>::const_reverse_iterator rend()
+{
 }
 
 template <class T>

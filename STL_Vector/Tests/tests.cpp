@@ -26,6 +26,10 @@ void Tests::runAllTests()
     this->test_cbegin();
     this->test_end();
     this->test_cend();
+    this->test_rbegin();
+    this->test_crbegin();
+    this->test_rend();
+    this->test_crend();
     this->test_at();
     this->test_front();
     this->test_back();
@@ -355,6 +359,22 @@ void Tests::test_cend()
     {
         testFailure(__FUNCTION__);
     }
+}
+
+void Tests::test_rbegin()
+{
+}
+
+void Tests::test_crbegin()
+{
+}
+
+void Tests::test_rend()
+{
+}
+
+void Tests::test_crend()
+{
 }
 
 void Tests::test_at()
